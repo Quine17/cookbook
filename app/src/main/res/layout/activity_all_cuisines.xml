@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ШАПКА -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="#F8F8F8"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Все кухни мира"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Назад"
+            android:background="#000000"
+            android:textColor="#FFFFFF"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <!-- СПИСОК КУХОНЬ -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:layout_above="@id/bottom_navigation"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Итальянская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#009246"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#FFFFFF"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#CE2B37"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Итальянская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_italian_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Французская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#0055A4"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#FFFFFF"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#EF4135"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Французская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_french_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Японская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:background="#FFFFFF"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="12dp" android:layout_height="12dp" android:background="#BC002D" android:layout_gravity="center"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Японская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_japanese_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Мексиканская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#006847"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#FFFFFF"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#CE1126"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Мексиканская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_mexican_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Индийская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#FF9933"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#FFFFFF"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#138808"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Индийская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_indian_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Китайская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:background="#DE2910"
+                    android:layout_marginEnd="12dp">
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Китайская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_chinese_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Американская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="7" android:background="#3C3B6E"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="6" android:background="#FFFFFF"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="7" android:background="#B22234"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Американская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_american_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+            <!-- Русская кухня -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#F5F5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#FFFFFF"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#0039A6"/>
+                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#D52B1E"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Русская кухня"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/btn_russian_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать"
+                    android:background="#000000"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:minWidth="0dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black" />
+
+</RelativeLayout>

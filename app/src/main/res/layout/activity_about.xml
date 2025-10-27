@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- ШАПКА -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:background="#F8F8F8"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="←"
+            android:textSize="18sp"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="О ПРИЛОЖЕНИИ"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <!-- СОДЕРЖИМОЕ -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="World Cuisine"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Версия 1.0.0"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="World Cuisine - это ваше окно в мир кулинарного искусства! Откройте для себя рецепты со всего мира, от традиционных итальянских паст до экзотических азиатских блюд."
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🌟 Особенности:\n• Более 1000 рецептов из 50+ стран\n• Пошаговые инструкции с фото\n• Система избранного\n• Поиск по ингредиентам\n• Персональные рекомендации"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📱 Разработчик:\nКоманда World Cuisine\n\n📧 Обратная связь:\nsupport@worldcuisine.com"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:lineSpacingExtra="4dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- НИЖНЯЯ ПАНЕЛЬ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#F0F0F0"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_home_about"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Главная"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:textSize="12sp"/>
+
+        <View android:layout_width="1dp" android:layout_height="30dp" android:background="#CCCCCC"/>
+
+        <Button
+            android:id="@+id/btn_search_about"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Поиск"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:textSize="12sp"/>
+
+        <View android:layout_width="1dp" android:layout_height="30dp" android:background="#CCCCCC"/>
+
+        <Button
+            android:id="@+id/btn_favorites_about"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Избранное"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:textSize="12sp"/>
+
+        <View android:layout_width="1dp" android:layout_height="30dp" android:background="#CCCCCC"/>
+
+        <Button
+            android:id="@+id/btn_profile_about"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Профиль"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
