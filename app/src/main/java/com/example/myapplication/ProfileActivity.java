@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log; // Добавь этот импорт
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 public class ProfileActivity extends BaseActivity {
 
     private SharedPreferences sharedPreferences;
+    private static final String TAG = "ProfileActivity";
+    private boolean isGuest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +23,13 @@ public class ProfileActivity extends BaseActivity {
         setSelectedItem(R.id.nav_profile);
 
         sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE);
+        isGuest = sharedPreferences.getBoolean("is_guest", false);
 
         setupHeader();
         setupUserInfo();
         setupMenuButtons();
+
+        Log.d(TAG, "ProfileActivity created - Guest: " + isGuest);
     }
 
     private void setupHeader() {
@@ -38,47 +44,61 @@ public class ProfileActivity extends BaseActivity {
         TextView tvUserEmail = findViewById(R.id.tvUserEmail);
         TextView tvAvatarText = findViewById(R.id.tvAvatarText);
 
-        String savedLogin = sharedPreferences.getString("login", "user@example.com");
+        if (isGuest) {
+            // Гостевой режим
+            tvUserName.setText("Гость");
+            tvUserEmail.setText("guest@example.com");
+            tvAvatarText.setText("Г");
+        } else {
+            // Обычный пользователь
+            String savedLogin = sharedPreferences.getString("login", "user@example.com");
+            tvUserEmail.setText(savedLogin);
 
-        // Устанавливаем email
-        tvUserEmail.setText(savedLogin);
+            String userName = savedLogin.split("@")[0];
+            userName = userName.substring(0, 1).toUpperCase() + userName.substring(1);
+            tvUserName.setText(userName);
 
-        // Генерируем имя из email (берем часть до @)
-        String userName = savedLogin.split("@")[0];
-        userName = userName.substring(0, 1).toUpperCase() + userName.substring(1);
-        tvUserName.setText(userName);
-
-        // Устанавливаем первую букву имени в аватарку
-        if (!userName.isEmpty()) {
-            String firstLetter = String.valueOf(userName.charAt(0)).toUpperCase();
-            tvAvatarText.setText(firstLetter);
+            if (!userName.isEmpty()) {
+                String firstLetter = String.valueOf(userName.charAt(0)).toUpperCase();
+                tvAvatarText.setText(firstLetter);
+            }
         }
     }
 
     private void setupMenuButtons() {
-        // Мои рецепты
         LinearLayout btnMyRecipes = findViewById(R.id.btnMyRecipes);
+        LinearLayout btnFavorites = findViewById(R.id.btnFavorites);
+        LinearLayout btnAbout = findViewById(R.id.btnAbout);
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        // Мои рецепты
         btnMyRecipes.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, MyRecipesActivity.class);
-            startActivity(intent);
+            if (isGuest) {
+                Toast.makeText(this, "Доступно только для зарегистрированных пользователей", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(ProfileActivity.this, MyRecipesActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Избранное
-        LinearLayout btnFavorites = findViewById(R.id.btnFavorites);
         btnFavorites.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, FavoritesActivity.class);
-            startActivity(intent);
+            if (isGuest) {
+                Toast.makeText(this, "Доступно только для зарегистрированных пользователей", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(ProfileActivity.this, FavoritesActivity.class);
+                startActivity(intent);
+            }
         });
 
         // О приложении
-        LinearLayout btnAbout = findViewById(R.id.btnAbout);
         btnAbout.setOnClickListener(v -> {
+            BaseActivity.lastSelectedItem = R.id.nav_profile;
             Intent intent = new Intent(ProfileActivity.this, AboutActivity.class);
             startActivity(intent);
         });
 
         // Выйти
-        Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
             performLogout();
         });
@@ -86,8 +106,7 @@ public class ProfileActivity extends BaseActivity {
 
     private void performLogout() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("login");
-        editor.remove("password");
+        editor.clear(); // Очищаем все данные
         editor.apply();
 
         Toast.makeText(this, "Вы вышли из аккаунта", Toast.LENGTH_SHORT).show();

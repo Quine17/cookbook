@@ -3,14 +3,18 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.HomeActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.RegisterActivity; // Добавь этот импорт
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         cbRememberMe = findViewById(R.id.cbRememberMe);
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnRegister = findViewById(R.id.btnRegister);
+        TextView tvGuest = findViewById(R.id.tvGuest);
 
         sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE);
         loadSavedCredentials();
@@ -41,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
+        });
+
+        // Гостевой вход
+        tvGuest.setOnClickListener(v -> {
+            enterAsGuest();
         });
     }
 
@@ -61,13 +71,24 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast.makeText(this, "Успешный вход!", Toast.LENGTH_SHORT).show();
 
-            // Переход на главный экран
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Неверные данные", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void enterAsGuest() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_guest", true);
+        editor.apply();
+
+        Toast.makeText(this, "Вход как гость", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void saveCredentials(String login, String password) {

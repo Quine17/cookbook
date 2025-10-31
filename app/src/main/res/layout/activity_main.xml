@@ -1,61 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="32dp"
     android:gravity="center">
 
+    <!-- ЗАГОЛОВОК -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вход"
-        android:textSize="24sp"
-        android:layout_marginBottom="32dp"/>
+        android:text="World Cuisine"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginBottom="40dp"/>
 
+    <!-- ПОЛЕ ЛОГИНА -->
     <EditText
         android:id="@+id/etLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:hint="Логин"
-        android:layout_marginBottom="16dp"/>
+        android:hint="Email или логин"
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#666666"/>
 
+    <!-- ПОЛЕ ПАРОЛЯ -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:hint="Пароль"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp"/>
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#666666"
+        android:inputType="textPassword"/>
 
+    <!-- ЗАПОМНИТЬ МЕНЯ -->
     <CheckBox
         android:id="@+id/cbRememberMe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:text="Запомнить меня"
+        android:textColor="#000000"
         android:layout_marginBottom="24dp"/>
 
+    <!-- КНОПКА ВХОДА -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="Вход"
-        android:layout_marginBottom="16dp"
-        android:background="#FF000000"
-        android:textColor="#FFFFFFFF"/>
+        android:text="Войти"
+        android:background="#000000"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"/>
 
+    <!-- КНОПКА РЕГИСТРАЦИИ -->
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:text="Зарегистрироваться"
-        android:background="#FFFFFFFF"
-        android:textColor="#FF000000"/>
+        android:background="#666666"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- ГОСТЕВОЙ ВХОД -->
+    <TextView
+        android:id="@+id/tvGuest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Войти как гость"
+        android:textColor="#0000FF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="12dp"/>
 
 </LinearLayout>
