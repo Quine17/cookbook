@@ -2,9 +2,17 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class AllCuisinesActivity extends BaseActivity {
+
+    private EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,85 +21,85 @@ public class AllCuisinesActivity extends BaseActivity {
         setupBottomNavigation();
         setSelectedItem(R.id.nav_search);
 
-        // Кнопка назад
+        setupHeader();
+        loadAllCuisines();
+        setupSearch();
+    }
+
+    private void setupHeader() {
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> {
             finish();
         });
 
-        // Обработчики для ВСЕХ кухонь
-        setupAllCuisineButtons();
+        etSearch = findViewById(R.id.etSearch);
     }
 
-    private void setupAllCuisineButtons() {
-        // ИТАЛЬЯНСКАЯ КУХНЯ
-        Button btnItalian = findViewById(R.id.btn_italian_select);
-        if (btnItalian != null) {
-            btnItalian.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Итальянская кухня");
-                startActivity(intent);
-            });
-        }
+    private void setupSearch() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        // ФРАНЦУЗСКАЯ КУХНЯ
-        Button btnFrench = findViewById(R.id.btn_french_select);
-        if (btnFrench != null) {
-            btnFrench.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Французская кухня");
-                startActivity(intent);
-            });
-        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCuisines(s.toString());
+            }
 
-        // ЯПОНСКАЯ КУХНЯ
-        Button btnJapanese = findViewById(R.id.btn_japanese_select);
-        if (btnJapanese != null) {
-            btnJapanese.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Японская кухня");
-                startActivity(intent);
-            });
-        }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
 
-        // МЕКСИКАНСКАЯ КУХНЯ
-        Button btnMexican = findViewById(R.id.btn_mexican_select);
-        if (btnMexican != null) {
-            btnMexican.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Мексиканская кухня");
-                startActivity(intent);
-            });
-        }
+    private void loadAllCuisines() {
+        LinearLayout container = findViewById(R.id.cuisinesContainer);
+        container.removeAllViews();
 
-        // ИНДИЙСКАЯ КУХНЯ
-        Button btnIndian = findViewById(R.id.btn_indian_select);
-        if (btnIndian != null) {
-            btnIndian.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Индийская кухня");
-                startActivity(intent);
-            });
-        }
+        // Добавляем все кухни
+        addCuisine(container, "Итальянская кухня", "Паста, пицца, ризотто");
+        addCuisine(container, "Японская кухня", "Суши, роллы, сашими");
+        addCuisine(container, "Китайская кухня", "Вок, димсамы, утка по-пекински");
+        addCuisine(container, "Французская кухня", "Выпечка, соусы, десерты");
+        addCuisine(container, "Мексиканская кухня", "Тако, буррито, кесадильи");
+        addCuisine(container, "Индийская кухня", "Карри, тандури, бирьяни");
+        addCuisine(container, "Американская кухня", "Бургеры, барбекю, стейки");
+        addCuisine(container, "Русская кухня", "Борщ, пельмени, блины");
+    }
 
-        // АМЕРИКАНСКАЯ КУХНЯ
-        Button btnAmerican = findViewById(R.id.btn_american_select);
-        if (btnAmerican != null) {
-            btnAmerican.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Американская кухня");
-                startActivity(intent);
-            });
-        }
+    private void filterCuisines(String query) {
+        LinearLayout container = findViewById(R.id.cuisinesContainer);
+        container.removeAllViews();
 
-        // РУССКАЯ КУХНЯ
-        Button btnRussian = findViewById(R.id.btn_russian_select);
-        if (btnRussian != null) {
-            btnRussian.setOnClickListener(v -> {
-                Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
-                intent.putExtra("cuisine_name", "Русская кухня");
-                startActivity(intent);
-            });
+        // Простая фильтрация
+        String[] cuisines = {"Итальянская кухня", "Японская кухня", "Китайская кухня", "Французская кухня",
+                "Мексиканская кухня", "Индийская кухня", "Американская кухня", "Русская кухня"};
+        String[] descriptions = {"Паста, пицца, ризотто", "Суши, роллы, сашими", "Вок, димсамы, утка по-пекински",
+                "Выпечка, соусы, десерты", "Тако, буррито, кесадильи", "Карри, тандури, бирьяни",
+                "Бургеры, барбекю, стейки", "Борщ, пельмени, блины"};
+
+        for (int i = 0; i < cuisines.length; i++) {
+            if (cuisines[i].toLowerCase().contains(query.toLowerCase()) ||
+                    descriptions[i].toLowerCase().contains(query.toLowerCase())) {
+                addCuisine(container, cuisines[i], descriptions[i]);
+            }
         }
+    }
+
+    private void addCuisine(LinearLayout container, String title, String description) {
+        View cuisineView = getLayoutInflater().inflate(R.layout.cuisine_item, container, false);
+
+        TextView tvTitle = cuisineView.findViewById(R.id.tvCuisineTitle);
+        TextView tvDescription = cuisineView.findViewById(R.id.tvCuisineDescription);
+        View btnSelect = cuisineView.findViewById(R.id.btnSelectCuisine); // Изменили на View
+
+        tvTitle.setText(title);
+        tvDescription.setText(description);
+
+        btnSelect.setOnClickListener(v -> {
+            Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
+            intent.putExtra("cuisine_name", title);
+            startActivity(intent);
+        });
+
+        container.addView(cuisineView);
     }
 }
