@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFF8F0">
 
     <!-- ШАПКА ПРОФИЛЯ -->
     <LinearLayout
@@ -13,9 +13,10 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:padding="20dp"
-        android:background="#F8F8F8"
+        android:background="#5D4037"
         android:gravity="center_vertical">
 
+        <!-- Кнопка назад слева -->
         <Button
             android:id="@+id/btnBack"
             android:layout_width="40dp"
@@ -23,9 +24,10 @@
             android:text="←"
             android:textSize="18sp"
             android:background="@android:color/transparent"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:layout_marginEnd="16dp"/>
 
+        <!-- Заголовок по центру -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,7 +35,19 @@
             android:text="МОЙ ПРОФИЛЬ"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:textColor="#FFFFFF"
+            android:gravity="center"/>
+
+        <!-- Иконка настроек справа -->
+        <Button
+            android:id="@+id/btnSettingsHeader"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="⚙️"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="16dp"/>
 
     </LinearLayout>
 
@@ -56,15 +70,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="20dp"
-                android:background="#F5F5F5"
+                android:background="@drawable/cuisine_card_background"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="24dp">
 
                 <!-- Аватарка -->
                 <LinearLayout
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:background="#4CAF50"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/brown_circle"
                     android:gravity="center"
                     android:layout_marginEnd="16dp"
                     android:orientation="vertical">
@@ -74,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="A"
-                        android:textSize="24sp"
+                        android:textSize="32sp"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"/>
 
@@ -92,9 +106,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Алексей"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#000000"
+                        android:textColor="#5D4037"
                         android:layout_marginBottom="4dp"/>
 
                     <TextView
@@ -103,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:text="user@example.com"
                         android:textSize="14sp"
-                        android:textColor="#666666"/>
+                        android:textColor="#8D6E63"/>
 
                 </LinearLayout>
 
@@ -122,10 +136,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:orientation="horizontal"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/cuisine_card_background"
                     android:padding="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginBottom="8dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -133,16 +147,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Мои рецепты"
+                        android:text="📝 Мои рецепты"
                         android:textSize="16sp"
-                        android:textColor="#000000"/>
+                        android:textColor="#5D4037"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="→"
                         android:textSize="16sp"
-                        android:textColor="#666666"/>
+                        android:textColor="#8D6E63"/>
 
                 </LinearLayout>
 
@@ -152,10 +166,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:orientation="horizontal"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/cuisine_card_background"
                     android:padding="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginBottom="8dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -163,16 +177,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Избранное"
+                        android:text="❤️ Избранное"
                         android:textSize="16sp"
-                        android:textColor="#000000"/>
+                        android:textColor="#5D4037"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="→"
                         android:textSize="16sp"
-                        android:textColor="#666666"/>
+                        android:textColor="#8D6E63"/>
 
                 </LinearLayout>
 
@@ -182,10 +196,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:orientation="horizontal"
-                    android:background="#F5F5F5"
+                    android:background="@drawable/cuisine_card_background"
                     android:padding="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginBottom="8dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -193,16 +207,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="О приложении"
+                        android:text="ℹ️ О приложении"
                         android:textSize="16sp"
-                        android:textColor="#000000"/>
+                        android:textColor="#5D4037"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="→"
                         android:textSize="16sp"
-                        android:textColor="#666666"/>
+                        android:textColor="#8D6E63"/>
 
                 </LinearLayout>
 
@@ -215,15 +229,16 @@
                 android:layout_weight="1" />
 
             <!-- КНОПКА ВЫХОДА -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Выйти"
-                android:background="#FF0000"
+                android:layout_height="50dp"
+                android:text="🚪 Выйти из аккаунта"
+                android:backgroundTint="#D32F2F"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:padding="16dp"
+                android:textStyle="bold"
+                app:cornerRadius="25dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="20dp"/>
 
@@ -236,9 +251,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
+        android:background="#FFD54F"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black" />
+        app:itemIconTint="@color/bottom_nav_mustard"
+        app:itemTextColor="@color/bottom_nav_mustard" />
 
 </RelativeLayout>
