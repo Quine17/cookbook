@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import com.example.myapplication.models.Category;
 import com.example.myapplication.models.Recipe;
 import com.example.myapplication.models.Ingredient;
@@ -13,7 +14,7 @@ import com.example.myapplication.models.RecipeIngredient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseManager {
+public class    DatabaseManager {
     private static DatabaseManager instance;
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
@@ -37,6 +38,23 @@ public class DatabaseManager {
         dbHelper.close();
     }
 
+    // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ДЛЯ БЕЗОПАСНОГО ЧТЕНИЯ ДАННЫХ
+    private String getStringSafe(Cursor cursor, String columnName) {
+        int columnIndex = cursor.getColumnIndex(columnName);
+        if (columnIndex >= 0) {
+            return cursor.getString(columnIndex);
+        }
+        return "";
+    }
+
+    private int getIntSafe(Cursor cursor, String columnName) {
+        int columnIndex = cursor.getColumnIndex(columnName);
+        if (columnIndex >= 0) {
+            return cursor.getInt(columnIndex);
+        }
+        return 0;
+    }
+
     // 1. РАБОТА С КАТЕГОРИЯМИ (КУХНЯМИ)
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -45,9 +63,9 @@ public class DatabaseManager {
         if (cursor.moveToFirst()) {
             do {
                 Category category = new Category();
-                category.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                category.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-                category.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
+                category.setId(getIntSafe(cursor, "id"));
+                category.setName(getStringSafe(cursor, "name"));
+                category.setDescription(getStringSafe(cursor, "description"));
                 categories.add(category);
             } while (cursor.moveToNext());
         }
@@ -62,9 +80,9 @@ public class DatabaseManager {
         Category category = null;
         if (cursor.moveToFirst()) {
             category = new Category();
-            category.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-            category.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-            category.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
+            category.setId(getIntSafe(cursor, "id"));
+            category.setName(getStringSafe(cursor, "name"));
+            category.setDescription(getStringSafe(cursor, "description"));
         }
         cursor.close();
         return category;
@@ -79,14 +97,14 @@ public class DatabaseManager {
         if (cursor.moveToFirst()) {
             do {
                 Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
-                recipe.setInstructions(cursor.getString(cursor.getColumnIndexOrThrow("instructions")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndexOrThrow("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndexOrThrow("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndexOrThrow("servings")));
-                recipe.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow("category_id")));
+                recipe.setId(getIntSafe(cursor, "id"));
+                recipe.setTitle(getStringSafe(cursor, "title"));
+                recipe.setDescription(getStringSafe(cursor, "description"));
+                recipe.setInstructions(getStringSafe(cursor, "instructions"));
+                recipe.setPrepTime(getIntSafe(cursor, "prep_time"));
+                recipe.setCookTime(getIntSafe(cursor, "cook_time"));
+                recipe.setServings(getIntSafe(cursor, "servings"));
+                recipe.setCategoryId(getIntSafe(cursor, "category_id"));
                 recipes.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -101,34 +119,34 @@ public class DatabaseManager {
         Recipe recipe = null;
         if (cursor.moveToFirst()) {
             recipe = new Recipe();
-            recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-            recipe.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
-            recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
-            recipe.setInstructions(cursor.getString(cursor.getColumnIndexOrThrow("instructions")));
-            recipe.setPrepTime(cursor.getInt(cursor.getColumnIndexOrThrow("prep_time")));
-            recipe.setCookTime(cursor.getInt(cursor.getColumnIndexOrThrow("cook_time")));
-            recipe.setServings(cursor.getInt(cursor.getColumnIndexOrThrow("servings")));
-            recipe.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow("category_id")));
+            recipe.setId(getIntSafe(cursor, "id"));
+            recipe.setTitle(getStringSafe(cursor, "title"));
+            recipe.setDescription(getStringSafe(cursor, "description"));
+            recipe.setInstructions(getStringSafe(cursor, "instructions"));
+            recipe.setPrepTime(getIntSafe(cursor, "prep_time"));
+            recipe.setCookTime(getIntSafe(cursor, "cook_time"));
+            recipe.setServings(getIntSafe(cursor, "servings"));
+            recipe.setCategoryId(getIntSafe(cursor, "category_id"));
         }
         cursor.close();
         return recipe;
     }
 
-    public List<Recipe> searchRecipes(String query) {
+    public List<Recipe> searchRecipes(String searchQuery) {
         List<Recipe> recipes = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM recipes WHERE title LIKE ? OR description LIKE ? ORDER BY title";
-        String searchTerm = "%" + query + "%";
-        Cursor cursor = database.rawQuery(sqlQuery, new String[]{searchTerm, searchTerm});
+        String query = "SELECT * FROM recipes WHERE title LIKE ? OR description LIKE ? ORDER BY title";
+        String searchTerm = "%" + searchQuery + "%";
+        Cursor cursor = database.rawQuery(query, new String[]{searchTerm, searchTerm});
 
         if (cursor.moveToFirst()) {
             do {
                 Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndexOrThrow("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndexOrThrow("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndexOrThrow("servings")));
+                recipe.setId(getIntSafe(cursor, "id"));
+                recipe.setTitle(getStringSafe(cursor, "title"));
+                recipe.setDescription(getStringSafe(cursor, "description"));
+                recipe.setPrepTime(getIntSafe(cursor, "prep_time"));
+                recipe.setCookTime(getIntSafe(cursor, "cook_time"));
+                recipe.setServings(getIntSafe(cursor, "servings"));
                 recipes.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -147,12 +165,12 @@ public class DatabaseManager {
         if (cursor.moveToFirst()) {
             do {
                 RecipeIngredient ingredient = new RecipeIngredient();
-                ingredient.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                ingredient.setRecipeId(cursor.getInt(cursor.getColumnIndexOrThrow("recipe_id")));
-                ingredient.setIngredientId(cursor.getInt(cursor.getColumnIndexOrThrow("ingredient_id")));
-                ingredient.setQuantity(cursor.getString(cursor.getColumnIndexOrThrow("quantity")));
-                ingredient.setUnit(cursor.getString(cursor.getColumnIndexOrThrow("unit")));
-                ingredient.setIngredientName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+                ingredient.setId(getIntSafe(cursor, "id"));
+                ingredient.setRecipeId(getIntSafe(cursor, "recipe_id"));
+                ingredient.setIngredientId(getIntSafe(cursor, "ingredient_id"));
+                ingredient.setQuantity(getStringSafe(cursor, "quantity"));
+                ingredient.setUnit(getStringSafe(cursor, "unit"));
+                ingredient.setIngredientName(getStringSafe(cursor, "name"));
                 ingredients.add(ingredient);
             } while (cursor.moveToNext());
         }
@@ -166,8 +184,7 @@ public class DatabaseManager {
         values.put("user_id", userId);
         values.put("recipe_id", recipeId);
 
-        long result = database.insertWithOnConflict("favorites", null, values,
-                SQLiteDatabase.CONFLICT_IGNORE);
+        long result = database.insert("favorites", null, values);
         return result != -1;
     }
 
@@ -198,12 +215,12 @@ public class DatabaseManager {
         if (cursor.moveToFirst()) {
             do {
                 Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndexOrThrow("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndexOrThrow("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndexOrThrow("servings")));
+                recipe.setId(getIntSafe(cursor, "id"));
+                recipe.setTitle(getStringSafe(cursor, "title"));
+                recipe.setDescription(getStringSafe(cursor, "description"));
+                recipe.setPrepTime(getIntSafe(cursor, "prep_time"));
+                recipe.setCookTime(getIntSafe(cursor, "cook_time"));
+                recipe.setServings(getIntSafe(cursor, "servings"));
                 favorites.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -211,26 +228,21 @@ public class DatabaseManager {
         return favorites;
     }
 
-    // 5. ПОЛУЧЕНИЕ ПОПУЛЯРНЫХ РЕЦЕПТОВ (для главной страницы)
+    // 5. ПОЛУЧЕНИЕ ПОПУЛЯРНЫХ РЕЦЕПТОВ
     public List<Recipe> getPopularRecipes(int limit) {
         List<Recipe> recipes = new ArrayList<>();
-        String query = "SELECT r.*, COUNT(f.id) as favorite_count " +
-                "FROM recipes r " +
-                "LEFT JOIN favorites f ON r.id = f.recipe_id " +
-                "GROUP BY r.id " +
-                "ORDER BY favorite_count DESC, r.created_at DESC " +
-                "LIMIT ?";
+        String query = "SELECT * FROM recipes ORDER BY created_at DESC LIMIT ?";
         Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(limit)});
 
         if (cursor.moveToFirst()) {
             do {
                 Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndexOrThrow("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndexOrThrow("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndexOrThrow("servings")));
+                recipe.setId(getIntSafe(cursor, "id"));
+                recipe.setTitle(getStringSafe(cursor, "title"));
+                recipe.setDescription(getStringSafe(cursor, "description"));
+                recipe.setPrepTime(getIntSafe(cursor, "prep_time"));
+                recipe.setCookTime(getIntSafe(cursor, "cook_time"));
+                recipe.setServings(getIntSafe(cursor, "servings"));
                 recipes.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -238,47 +250,7 @@ public class DatabaseManager {
         return recipes;
     }
 
-    // 6. ПОЛУЧЕНИЕ РЕЦЕПТОВ ПО ВРЕМЕНИ ПРИГОТОВЛЕНИЯ
-    public List<Recipe> getQuickRecipes(int maxTotalTime) {
-        List<Recipe> recipes = new ArrayList<>();
-        String query = "SELECT * FROM recipes WHERE (prep_time + cook_time) <= ? ORDER BY (prep_time + cook_time)";
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(maxTotalTime)});
-
-        if (cursor.moveToFirst()) {
-            do {
-                Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndexOrThrow("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndexOrThrow("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndexOrThrow("servings")));
-                recipes.add(recipe);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return recipes;
-    }
-
-    // 7. ПОЛУЧЕНИЕ ВСЕХ ИНГРЕДИЕНТОВ
-    public List<Ingredient> getAllIngredients() {
-        List<Ingredient> ingredients = new ArrayList<>();
-        Cursor cursor = database.query("ingredients", null, null, null, null, null, "name");
-
-        if (cursor.moveToFirst()) {
-            do {
-                Ingredient ingredient = new Ingredient();
-                ingredient.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-                ingredient.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-                ingredients.add(ingredient);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return ingredients;
-    }
-    // Добавь эти методы в DatabaseManager.java
-
-    // Добавление нового рецепта
+    // 6. ДОБАВЛЕНИЕ И УДАЛЕНИЕ РЕЦЕПТОВ
     public long addRecipe(Recipe recipe) {
         ContentValues values = new ContentValues();
         values.put("user_id", recipe.getUserId());
@@ -293,9 +265,7 @@ public class DatabaseManager {
         return database.insert("recipes", null, values);
     }
 
-    // Удаление рецепта
     public boolean deleteRecipe(int recipeId, int userId) {
-        // Проверяем, что пользователь удаляет свой рецепт
         String whereClause = "id = ? AND user_id = ?";
         String[] whereArgs = {String.valueOf(recipeId), String.valueOf(userId)};
 
@@ -303,150 +273,41 @@ public class DatabaseManager {
         return result > 0;
     }
 
-    // Получение рецептов пользователя
-    public List<Recipe> getUserRecipes(int userId) {
+    public List<Recipe> getAllRecipes() {
         List<Recipe> recipes = new ArrayList<>();
-        String query = "SELECT * FROM recipes WHERE user_id = ? ORDER BY created_at DESC";
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(userId)});
+        Cursor cursor = database.query("recipes", null, null, null, null, null, "title");
+
+        Log.d("Database", "Total recipes in DB: " + cursor.getCount());
 
         if (cursor.moveToFirst()) {
             do {
                 Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                recipe.setInstructions(cursor.getString(cursor.getColumnIndex("instructions")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndex("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndex("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndex("servings")));
-                recipe.setCategoryId(cursor.getInt(cursor.getColumnIndex("category_id")));
+                recipe.setId(getIntSafe(cursor, "id"));
+                recipe.setTitle(getStringSafe(cursor, "title"));
+                recipe.setDescription(getStringSafe(cursor, "description"));
+                recipe.setCategoryId(getIntSafe(cursor, "category_id"));
                 recipes.add(recipe);
+                Log.d("Database", "Recipe: " + recipe.getTitle() + " (cat: " + recipe.getCategoryId() + ")");
             } while (cursor.moveToNext());
         }
         cursor.close();
         return recipes;
     }
 
-    // Добавление ингредиентов к рецепту
-    public void addRecipeIngredients(int recipeId, List<RecipeIngredient> ingredients) {
-        for (RecipeIngredient ingredient : ingredients) {
-            ContentValues values = new ContentValues();
-            values.put("recipe_id", recipeId);
-            values.put("ingredient_id", ingredient.getIngredientId());
-            values.put("quantity", ingredient.getQuantity());
-            values.put("unit", ingredient.getUnit());
-            database.insert("recipe_ingredients", null, values);
-        }
-    }
-
-    // Поиск с фильтрами
-    public List<Recipe> searchRecipesWithFilters(String query, String difficulty, int maxTotalTime, String tags) {
-        List<Recipe> recipes = new ArrayList<>();
-
-        StringBuilder sqlBuilder = new StringBuilder(
-                "SELECT * FROM recipes WHERE 1=1"
-        );
-        List<String> args = new ArrayList<>();
-
-        // Фильтр по поисковому запросу
-        if (query != null && !query.isEmpty()) {
-            sqlBuilder.append(" AND (title LIKE ? OR description LIKE ?)");
-            args.add("%" + query + "%");
-            args.add("%" + query + "%");
-        }
-
-        // Фильтр по сложности
-        if (difficulty != null && !difficulty.isEmpty()) {
-            sqlBuilder.append(" AND difficulty = ?");
-            args.add(difficulty);
-        }
-
-        // Фильтр по максимальному времени приготовления
-        if (maxTotalTime > 0) {
-            sqlBuilder.append(" AND (prep_time + cook_time) <= ?");
-            args.add(String.valueOf(maxTotalTime));
-        }
-
-        // Фильтр по тегам
-        if (tags != null && !tags.isEmpty()) {
-            sqlBuilder.append(" AND tags LIKE ?");
-            args.add("%" + tags + "%");
-        }
-
-        sqlBuilder.append(" ORDER BY title");
-
-        Cursor cursor = database.rawQuery(sqlBuilder.toString(), args.toArray(new String[0]));
+    // 7. ПОЛУЧЕНИЕ ВСЕХ ИНГРЕДИЕНТОВ
+    public List<Ingredient> getAllIngredients() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        Cursor cursor = database.query("ingredients", null, null, null, null, null, "name");
 
         if (cursor.moveToFirst()) {
             do {
-                Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                recipe.setInstructions(cursor.getString(cursor.getColumnIndex("instructions")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndex("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndex("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndex("servings")));
-                recipe.setCategoryId(cursor.getInt(cursor.getColumnIndex("category_id")));
-                // Новые поля
-                if (cursor.getColumnIndex("difficulty") != -1) {
-                    recipe.setDifficulty(cursor.getString(cursor.getColumnIndex("difficulty")));
-                }
-                if (cursor.getColumnIndex("tags") != -1) {
-                    recipe.setTags(cursor.getString(cursor.getColumnIndex("tags")));
-                }
-                recipes.add(recipe);
+                Ingredient ingredient = new Ingredient();
+                ingredient.setId(getIntSafe(cursor, "id"));
+                ingredient.setName(getStringSafe(cursor, "name"));
+                ingredients.add(ingredient);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return recipes;
+        return ingredients;
     }
-
-    // Получить уникальные теги для фильтров
-    public List<String> getAllTags() {
-        List<String> tags = new ArrayList<>();
-        String query = "SELECT DISTINCT tags FROM recipes WHERE tags IS NOT NULL AND tags != ''";
-        Cursor cursor = database.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                String tagString = cursor.getString(cursor.getColumnIndex("tags"));
-                if (tagString != null) {
-                    // Разделяем теги по запятой и добавляем в список
-                    String[] tagArray = tagString.split(",");
-                    for (String tag : tagArray) {
-                        String trimmedTag = tag.trim();
-                        if (!trimmedTag.isEmpty() && !tags.contains(trimmedTag)) {
-                            tags.add(trimmedTag);
-                        }
-                    }
-                }
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return tags;
-    }
-
-    // Получить рецепты по времени приготовления
-    public List<Recipe> getRecipesByTime(int maxTime) {
-        List<Recipe> recipes = new ArrayList<>();
-        String query = "SELECT * FROM recipes WHERE (prep_time + cook_time) <= ? ORDER BY (prep_time + cook_time)";
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(maxTime)});
-
-        if (cursor.moveToFirst()) {
-            do {
-                Recipe recipe = new Recipe();
-                recipe.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                recipe.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                recipe.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                recipe.setPrepTime(cursor.getInt(cursor.getColumnIndex("prep_time")));
-                recipe.setCookTime(cursor.getInt(cursor.getColumnIndex("cook_time")));
-                recipe.setServings(cursor.getInt(cursor.getColumnIndex("servings")));
-                recipes.add(recipe);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return recipes;
-    }
-
 }

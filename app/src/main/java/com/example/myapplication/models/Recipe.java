@@ -55,4 +55,5 @@ public class Recipe {
     // Вспомогательный метод для получения общего времени
     public int getTotalTime() {
         return prepTime + cookTime;
+    }
 }

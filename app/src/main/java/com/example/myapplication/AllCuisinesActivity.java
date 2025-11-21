@@ -89,12 +89,13 @@ public class AllCuisinesActivity extends BaseActivity {
 
         TextView tvTitle = cuisineView.findViewById(R.id.tvCuisineTitle);
         TextView tvDescription = cuisineView.findViewById(R.id.tvCuisineDescription);
-        View btnSelect = cuisineView.findViewById(R.id.btnSelectCuisine); // Изменили на View
+        TextView btnSelect = cuisineView.findViewById(R.id.btnSelectCuisine);
 
         tvTitle.setText(title);
         tvDescription.setText(description);
 
         btnSelect.setOnClickListener(v -> {
+            // ПРАВИЛЬНЫЙ ПЕРЕХОД - на категории кухни
             Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
             intent.putExtra("cuisine_name", title);
             startActivity(intent);

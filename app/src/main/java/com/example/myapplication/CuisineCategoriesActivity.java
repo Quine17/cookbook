@@ -156,8 +156,12 @@ public class CuisineCategoriesActivity extends BaseActivity {
 
         btnSelect.setOnClickListener(v -> {
             String cuisineName = getIntent().getStringExtra("cuisine_name");
-            Toast.makeText(this, cuisineName + " - " + title, Toast.LENGTH_SHORT).show();
-            // TODO: Переход на конкретные рецепты категории
+
+            // ПЕРЕХОД НА РЕЦЕПТЫ ЭТОЙ КАТЕГОРИИ
+            Intent intent = new Intent(CuisineCategoriesActivity.this, MyRecipesActivity.class);
+            intent.putExtra("cuisine_name", cuisineName);
+            intent.putExtra("category_name", title); // Название категории
+            startActivity(intent);
         });
 
         container.addView(categoryView);

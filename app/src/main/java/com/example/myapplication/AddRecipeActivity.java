@@ -18,7 +18,7 @@ public class AddRecipeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_recipe_simple);
+        setContentView(R.layout.activity_add_recipe);
 
         setupBottomNavigation();
         setSelectedItem(BaseActivity.lastSelectedItem);
