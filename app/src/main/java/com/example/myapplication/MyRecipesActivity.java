@@ -1,49 +1,17 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.myapplication.models.Recipe;
-import java.util.List;
 
 public class MyRecipesActivity extends BaseActivity {
 
-    private DatabaseManager dbManager;
-    private int currentUserId = 1;
     private String selectedCuisine = "";
 
-
-    private void setupAddButton() {
-        Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
-        btnAddRecipe.setOnClickListener(v -> {
-            Intent intent = new Intent(MyRecipesActivity.this, AddRecipeActivity.class);
-            startActivity(intent);
-        });
-    }
-
-
-    // УБИРАЕМ этот метод пока что
-    /*
-    private boolean checkGuestAccess() {
-        SharedPreferences sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE);
-        boolean isGuest = sharedPreferences.getBoolean("is_guest", false);
-
-        if (isGuest) {
-            Toast.makeText(this, "Доступно только для зарегистрированных пользователей", Toast.LENGTH_LONG).show();
-            finish();
-            return true;
-        }
-        return false;
-    }
-    */
-
-    // Остальной код без изменений...
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +20,22 @@ public class MyRecipesActivity extends BaseActivity {
         setupBottomNavigation();
         setSelectedItem(BaseActivity.lastSelectedItem);
 
-        selectedCuisine = getIntent().getStringExtra("cuisine_name");
+        // ДЕТАЛЬНАЯ ОТЛАДКА что приходит в интенте
+        Intent intent = getIntent();
+        selectedCuisine = intent.getStringExtra("cuisine_name");
+
+        // Покажем ВСЕ данные из интента
+        Toast.makeText(this,
+                "cuisine_name: " + selectedCuisine +
+                        "\nВсе ключи: " + intent.getExtras(),
+                Toast.LENGTH_LONG).show();
+
         if (selectedCuisine == null) {
             selectedCuisine = "Мои рецепты";
+            Toast.makeText(this, "cuisine_name NULL - показываем Мои рецепты", Toast.LENGTH_LONG).show();
         }
 
-        dbManager = DatabaseManager.getInstance(this);
-        dbManager.open();
-
-        setupHeader(); // ОДИН вызов
+        setupHeader();
         loadRecipes();
     }
 
@@ -68,7 +43,6 @@ public class MyRecipesActivity extends BaseActivity {
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        // Добавляем обработчик для кнопки добавления рецепта
         Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
         btnAddRecipe.setOnClickListener(v -> {
             Intent intent = new Intent(MyRecipesActivity.this, AddRecipeActivity.class);
@@ -77,171 +51,77 @@ public class MyRecipesActivity extends BaseActivity {
     }
 
     private void loadRecipes() {
-        try {
-            LinearLayout container = findViewById(R.id.recipesContainer);
-            LinearLayout emptyState = findViewById(R.id.emptyState);
+        LinearLayout container = findViewById(R.id.recipesContainer);
+        LinearLayout emptyState = findViewById(R.id.emptyState);
 
-            if (container == null) return;
-            container.removeAllViews();
+        if (container == null) return;
+        container.removeAllViews();
 
-            List<Recipe> recipes;
-            String categoryName = getIntent().getStringExtra("category_name");
+        // ДЕТАЛЬНАЯ ПРОВЕРКА ЧТО ПРИШЛО
+        Toast.makeText(this,
+                "selectedCuisine: '" + selectedCuisine + "'" +
+                        "\nДлина: " + selectedCuisine.length() +
+                        "\nСодержит 'Итальянская': " + selectedCuisine.contains("Итальянская") +
+                        "\nСодержит 'Итальянская кухня': " + selectedCuisine.contains("Итальянская кухня"),
+                Toast.LENGTH_LONG).show();
 
-            // ОТЛАДКА
-            Toast.makeText(this, "Кухня: " + selectedCuisine + ", Категория: " + categoryName, Toast.LENGTH_LONG).show();
+        // ТОЧНОЕ СРАВНЕНИЕ
+        if (selectedCuisine.equals("Итальянская кухня")) {
+            addTestRecipe(container, "Паста Карбонара", "Итальянская паста");
+            addTestRecipe(container, "Пицца Маргарита", "Итальянская пицца");
+            addTestRecipe(container, "Ризотто", "Итальянское ризотто");
+        }
+        else if (selectedCuisine.equals("Японская кухня")) {
+            addTestRecipe(container, "Роллы Филадельфия", "Японские роллы");
+            addTestRecipe(container, "Мисо суп", "Японский суп");
+            addTestRecipe(container, "Темпура", "Японская темпура");
+        }
+        else if (selectedCuisine.equals("Русская кухня")) {
+            addTestRecipe(container, "Борщ", "Русский борщ");
+            addTestRecipe(container, "Пельмени", "Русские пельмени");
+            addTestRecipe(container, "Оливье", "Русский салат");
+        }
+        else if (selectedCuisine.equals("Мексиканская кухня")) {
+            addTestRecipe(container, "Тако", "Мексиканские тако");
+            addTestRecipe(container, "Гуакамоле", "Мексиканская закуска");
+            addTestRecipe(container, "Буррито", "Мексиканское буррито");
+        }
+        else {
+            // Если не совпало - покажем что пришло
+            addTestRecipe(container, "НЕИЗВЕСТНАЯ КУХНЯ", "Пришло: " + selectedCuisine);
+            addTestRecipe(container, "Тест итальянская", "Для отладки");
+            addTestRecipe(container, "Тест японская", "Для отладки");
+        }
 
-            // ФИЛЬТРАЦИЯ ПО КУХНЕ И КАТЕГОРИИ
-            if (categoryName != null) {
-                // Загрузка по конкретной категории
-                recipes = loadRecipesByCategory(selectedCuisine, categoryName);
-            } else if (selectedCuisine != null && !selectedCuisine.equals("Мои рецепты")) {
-                // Загрузка всех рецептов кухни
-                recipes = loadRecipesByCuisine(selectedCuisine);
-            } else {
-                // Мои рецепты - временно показываем все
-                recipes = dbManager.getAllRecipes();
-            }
-
-            if (recipes == null || recipes.isEmpty()) {
-                Toast.makeText(this, "Рецепты не найдены для: " + selectedCuisine, Toast.LENGTH_LONG).show();
-                if (emptyState != null) emptyState.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            if (emptyState != null) emptyState.setVisibility(View.GONE);
-
-            // Показываем рецепты
-            Toast.makeText(this, "Показано рецептов: " + recipes.size(), Toast.LENGTH_SHORT).show();
-            for (Recipe recipe : recipes) {
-                addRecipeCard(container, recipe);
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("MyRecipes", "Ошибка загрузки", e);
+        if (emptyState != null) {
+            emptyState.setVisibility(View.GONE);
         }
     }
 
-    private List<Recipe> loadRecipesByCuisine(String cuisineName) {
-        List<Recipe> allRecipes = dbManager.getAllRecipes();
-        List<Recipe> filteredRecipes = new ArrayList<>();
+    private void addTestRecipe(LinearLayout container, String title, String description) {
+        TextView textView = new TextView(this);
+        textView.setText(title + "\n" + description);
+        textView.setPadding(50, 30, 50, 30);
+        textView.setTextSize(16);
+        textView.setBackgroundColor(0xFFF0F0F0);
 
-        // Сопоставление названий кухонь с ID категорий
-        int categoryId = getCategoryIdByCuisineName(cuisineName);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, 0, 0, 20);
+        textView.setLayoutParams(params);
 
-        if (categoryId != -1) {
-            // Фильтруем по category_id
-            for (Recipe recipe : allRecipes) {
-                if (recipe.getCategoryId() == categoryId) {
-                    filteredRecipes.add(recipe);
-                }
-            }
-        }
+        textView.setOnClickListener(v -> {
+            Toast.makeText(this, "Выбран: " + title, Toast.LENGTH_SHORT).show();
+        });
 
-        return filteredRecipes;
-    }
-
-    private List<Recipe> loadRecipesByCategory(String cuisineName, String categoryName) {
-        List<Recipe> cuisineRecipes = loadRecipesByCuisine(cuisineName);
-        List<Recipe> categoryRecipes = new ArrayList<>();
-
-        // Фильтруем по названию категории (по ключевым словам в названии рецепта)
-        for (Recipe recipe : cuisineRecipes) {
-            if (matchesCategory(recipe.getTitle(), categoryName)) {
-                categoryRecipes.add(recipe);
-            }
-        }
-
-        return categoryRecipes;
-    }
-
-    private int getCategoryIdByCuisineName(String cuisineName) {
-        // Сопоставление названий кухонь с ID категорий из БД
-        switch (cuisineName) {
-            case "Итальянская кухня": return 1;
-            case "Японская кухня": return 2;
-            case "Мексиканская кухня": return 3;
-            case "Китайская кухня": return 4;
-            case "Французская кухня": return 5;
-            case "Русская кухня": return 6;
-            default: return -1;
-        }
-    }
-
-    private boolean matchesCategory(String recipeTitle, String categoryName) {
-        // Простая логика сопоставления рецептов с категориями
-        String titleLower = recipeTitle.toLowerCase();
-        String categoryLower = categoryName.toLowerCase();
-
-        if (categoryLower.contains("паста") || categoryLower.contains("ризотто")) {
-            return titleLower.contains("паста") || titleLower.contains("спагетти") || titleLower.contains("ризотто");
-        } else if (categoryLower.contains("пицца")) {
-            return titleLower.contains("пицца");
-        } else if (categoryLower.contains("суши") || categoryLower.contains("ролл")) {
-            return titleLower.contains("ролл") || titleLower.contains("суши");
-        } else if (categoryLower.contains("суп")) {
-            return titleLower.contains("суп") || titleLower.contains("мисо");
-        } else if (categoryLower.contains("тако")) {
-            return titleLower.contains("тако");
-        } else if (categoryLower.contains("бургер")) {
-            return titleLower.contains("бургер");
-        }
-
-        return true; // если не нашли совпадение, показываем все
-    }
-
-    private void addRecipeCard(LinearLayout container, Recipe recipe) {
-        try {
-            // ПРОСТАЯ ТЕСТОВАЯ КАРТОЧКА вместо сложной
-            TextView textView = new TextView(this);
-            textView.setText(recipe.getTitle() + "\n" + recipe.getDescription());
-            textView.setPadding(32, 32, 32, 32);
-            textView.setBackgroundColor(0xFFF0F0F0);
-            textView.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
-            textView.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
-            ((LinearLayout.LayoutParams) textView.getLayoutParams()).setMargins(0, 0, 0, 16);
-
-            container.addView(textView);
-
-        } catch (Exception e) {
-            Log.e("MyRecipes", "Ошибка создания карточки", e);
-        }
-    }
-
-    private void deleteRecipe(Recipe recipe) {
-        boolean success = dbManager.deleteRecipe(recipe.getId(), currentUserId);
-        if (success) {
-            Toast.makeText(this, "Рецепт удален", Toast.LENGTH_SHORT).show();
-            loadRecipes();
-        } else {
-            Toast.makeText(this, "Ошибка при удалении рецепта", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void viewRecipe(Recipe recipe) {
-        Toast.makeText(this, "Рецепт: " + recipe.getTitle(), Toast.LENGTH_SHORT).show();
+        container.addView(textView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (dbManager != null) {
-            loadRecipes();
-        }
+        loadRecipes();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dbManager != null) {
-            dbManager.close();
-        }
-    }
-
 }

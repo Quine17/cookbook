@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "YumTrove.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 10;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,247 +43,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(user_id) REFERENCES users(id)," +
                 "FOREIGN KEY(category_id) REFERENCES categories(id))");
 
-        // 4. ИНГРЕДИЕНТЫ
-        db.execSQL("CREATE TABLE ingredients (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "name VARCHAR(100) NOT NULL)");
-
-        // 5. СВЯЗЬ РЕЦЕПТОВ И ИНГРЕДИЕНТОВ
-        db.execSQL("CREATE TABLE recipe_ingredients (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "recipe_id INTEGER NOT NULL," +
-                "ingredient_id INTEGER NOT NULL," +
-                "quantity VARCHAR(50)," +
-                "unit VARCHAR(20)," +
-                "FOREIGN KEY(recipe_id) REFERENCES recipes(id) ON DELETE CASCADE," +
-                "FOREIGN KEY(ingredient_id) REFERENCES ingredients(id))");
-
-        // 6. ИЗБРАННОЕ
-        db.execSQL("CREATE TABLE favorites (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "user_id INTEGER NOT NULL," +
-                "recipe_id INTEGER NOT NULL," +
-                "created_at DATETIME DEFAULT CURRENT_TIMESTAMP," +
-                "FOREIGN KEY(user_id) REFERENCES users(id)," +
-                "FOREIGN KEY(recipe_id) REFERENCES recipes(id)," +
-                "UNIQUE(user_id, recipe_id))");
-
-        // Вставляем тестовые данные
+        // Вставляем тестовые данные ПРАВИЛЬНО
         insertSampleData(db);
     }
 
     private void insertSampleData(SQLiteDatabase db) {
         // Пользователи
         db.execSQL("INSERT INTO users (username, email) VALUES ('ШефПовар', 'chef@yumtrove.com')");
-        db.execSQL("INSERT INTO users (username, email) VALUES ('ИтальянскийГурман', 'italy@food.com')");
 
-        // Категории (кухни)
-        db.execSQL("INSERT INTO categories (name, description) VALUES ('Итальянская', 'Паста, пицца, ризотто и средиземноморские блюда')");
-        db.execSQL("INSERT INTO categories (name, description) VALUES ('Японская', 'Суши, роллы, сашими и традиционные японские блюда')");
-        db.execSQL("INSERT INTO categories (name, description) VALUES ('Мексиканская', 'Тако, буррито, гуакамоле и острые блюда')");
+        // Категории (кухни) - ГОВНО КОТОРОЕ РАБОТАЕТ
+        db.execSQL("INSERT INTO categories (id, name, description) VALUES (1, 'Итальянская', 'Паста, пицца')");
+        db.execSQL("INSERT INTO categories (id, name, description) VALUES (2, 'Японская', 'Суши, роллы')");
+        db.execSQL("INSERT INTO categories (id, name, description) VALUES (3, 'Русская', 'Борщ, пельмени')");
 
-        // Ингредиенты
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Спагетти')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Панчетта')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Яйца')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Пармезан')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Чеснок')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Помидоры')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Базилик')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Моцарелла')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Оливковое масло')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Лук')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Морская соль')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Перец')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Рис арборио')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Белое вино')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Куриный бульон')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Грибы')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Тыква')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Сливочное масло')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Шалфей')");
-
-        // ИТАЛЬЯНСКИЕ РЕЦЕПТЫ
-        // 1. Паста Карбонара
+        // ИТАЛЬЯНСКИЕ РЕЦЕПТЫ (category_id = 1)
         db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 1, 'Паста Карбонара', 'Классическая римская паста с панчеттой и сырным соусом', " +
-                "'1. Сварите спагетти в подсоленной воде до состояния аль денте.\\n' || " +
-                "'2. Обжарьте панчетту до хрустящей корочки.\\n' || " +
-                "'3. Взбейте яйца с тертым пармезаном и черным перцем.\\n' || " +
-                "'4. Смешайте горячую пасту с панчеттой, снимите с огня.\\n' || " +
-                "'5. Добавьте яичную смесь, быстро перемешайте.\\n' || " +
-                "'6. Подавайте сразу, посыпав дополнительным пармезаном.', 10, 15, 4)");
-
-        // 2. Спагетти Болоньезе
+                "(1, 1, 'Паста Карбонара', 'Итальянская паста', 'Готовить так...', 10, 15, 4)");
         db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 1, 'Спагетти Болоньезе', 'Знаменитый мясной соус из Болоньи', " +
-                "'1. Мелко нарежьте лук, морковь и сельдерей.\\n' || " +
-                "'2. Обжарьте овощи в оливковом масле до мягкости.\\n' || " +
-                "'3. Добавьте фарш и готовьте до румяной корочки.\\n' || " +
-                "'4. Влейте вино и выпарите алкоголь.\\n' || " +
-                "'5. Добавьте томаты и тушите на медленном огне 2 часа.\\n' || " +
-                "'6. Подавайте с отварными спагетти и пармезаном.', 20, 120, 6)");
+                "(1, 1, 'Пицца Маргарита', 'Итальянская пицца', 'Готовить так...', 30, 10, 2)");
 
-        // 3. Ризотто с грибами
+        // ЯПОНСКИЕ РЕЦЕПТЫ (category_id = 2)
         db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 1, 'Ризотто с грибами', 'Кремовое ризотто с лесными грибами', " +
-                "'1. Обжарьте лук и чеснок до прозрачности.\\n' || " +
-                "'2. Добавьте рис арборио и обжаривайте 2 минуты.\\n' || " +
-                "'3. Влейте вино и перемешивайте до впитывания.\\n' || " +
-                "'4. Добавляйте горячий бульон по половинке, постоянно помешивая.\\n' || " +
-                "'5. За 5 минут до готовности добавьте грибы.\\n' || " +
-                "'6. В конце добавьте пармезан и сливочное масло.', 15, 25, 4)");
-
-        // 4. Маргарита Пицца
+                "(1, 2, 'Роллы Филадельфия', 'Японские роллы', 'Готовить так...', 30, 0, 2)");
         db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 1, 'Пицца Маргарита', 'Классическая неаполитанская пицца', " +
-                "'1. Замесите тесто и дайте подойти 1 час.\\n' || " +
-                "'2. Раскатайте тесто в тонкий круг.\\n' || " +
-                "'3. Нанесите томатный соус.\\n' || " +
-                "'4. Разложите моцареллу и листья базилика.\\n' || " +
-                "'5. Выпекайте в разогретой до 250°C духовке 8-10 минут.\\n' || " +
-                "'6. Сбрызните оливковым маслом перед подачей.', 30, 10, 2)");
+                "(1, 2, 'Мисо суп', 'Японский суп', 'Готовить так...', 10, 10, 4)");
 
-        // 5. Тыквенный равиоли
+        // РУССКИЕ РЕЦЕПТЫ (category_id = 3)
         db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 1, 'Тыквенные равиоли', 'Нежные равиоли с тыквенной начинкой', " +
-                "'1. Приготовьте тесто для пасты.\\n' || " +
-                "'2. Запеките тыкву и разомните в пюре.\\n' || " +
-                "'3. Смешайте тыкву с пармезаном и мускатным орехом.\\n' || " +
-                "'4. Раскатайте тесто и выложите начинку.\\n' || " +
-                "'5. Сформируйте равиоли и варите 3-4 минуты.\\n' || " +
-                "'6. Подавайте с шалфеем и сливочным маслом.', 40, 15, 4)");
-
-        // ЯПОНСКИЕ РЕЦЕПТЫ (категория 2)
+                "(1, 3, 'Борщ', 'Русский борщ', 'Готовить так...', 40, 60, 6)");
         db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 2, 'Роллы Филадельфия', 'Нежные роллы с лососем и сливочным сыром', " +
-                "'1. Приготовьте рис для суши\\n2. На лист нори выложите рис\\n3. Добавьте лосось и сыр\\n4. Аккуратно сверните ролл\\n5. Нарежьте на 8 кусочков\\n6. Подавайте с соевым соусом', 30, 10, 2)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 2, 'Мисо суп', 'Традиционный японский суп с тофу', " +
-                "'1. Доведите воду до кипения\\n2. Разведите пасту мисо\\n3. Добавьте тофу кубиками\\n4. Положите водоросли вакаме\\n5. Варите 5 минут\\n6. Посыпьте зеленым луком', 10, 10, 4)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 2, 'Темпура с креветками', 'Хрустящие креветки в кляре', " +
-                "'1. Очистите креветки\\n2. Приготовьте кляр из ледяной воды\\n3. Обмакните креветки в кляр\\n4. Жарьте во фритюре 2 минуты\\n5. Выложите на бумагу\\n6. Подавайте с соусом', 15, 10, 2)");
-
-// МЕКСИКАНСКИЕ РЕЦЕПТЫ (категория 3)
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 3, 'Тако с говядиной', 'Острые мексиканские тако', " +
-                "'1. Обжарьте фарш с луком\\n2. Добавьте специи и томаты\\n3. Разогрейте тортильи\\n4. Наполните тако начинкой\\n5. Добавьте салат и сыр\\n6. Подавайте со сметаной', 15, 15, 4)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 3, 'Гуакамоле', 'Классическая закуска из авокадо', " +
-                "'1. Разомните спелые авокадо\\n2. Добавьте мелко нарезанный лук\\n3. Положите помидоры и кинзу\\n4. Выжмите сок лайма\\n5. Посолите по вкусу\\n6. Подавайте с начос', 10, 0, 4)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 3, 'Кесадильи с курицей', 'Сырные лепешки с курицей', " +
-                "'1. Обжарьте курицу с перцем\\n2. На тортилью выложите сыр\\n3. Добавьте курицу и сверните\\n4. Обжарьте с двух сторон\\n5. Нарежьте на треугольники\\n6. Подавайте с сальсой', 20, 10, 2)");
-
-// ДОБАВИМ НОВЫЕ КАТЕГОРИИ
-        db.execSQL("INSERT INTO categories (name, description) VALUES ('Китайская', 'Вок, димсамы, утка по-пекински')");
-        db.execSQL("INSERT INTO categories (name, description) VALUES ('Французская', 'Выпечка, соусы, изысканные блюда')");
-        db.execSQL("INSERT INTO categories (name, description) VALUES ('Русская', 'Борщ, пельмени, традиционные блюда')");
-
-// КИТАЙСКИЕ РЕЦЕПТЫ (категория 4)
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 4, 'Курица в кисло-сладком соусе', 'Классическое китайское блюдо', " +
-                "'1. Нарежьте курицу кубиками\\n2. Обжарьте до золотистой корочки\\n3. Приготовьте кисло-сладкий соус\\n4. Добавьте перец и ананасы\\n5. Тушите 10 минут\\n6. Подавайте с рисом', 20, 20, 4)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 4, 'Жареная лапша с овощами', 'Ароматная лапша вок', " +
-                "'1. Отварите лапшу\\n2. Обжарьте овощи в воке\\n3. Добавьте лапшу и соус\\n4. Быстро обжарьте\\n5. Добавьте специи\\n6. Подавайте горячей', 15, 10, 2)");
-
-// ФРАНЦУЗСКИЕ РЕЦЕПТЫ (категория 5)
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 5, 'Круассаны', 'Воздушная французская выпечка', " +
-                "'1. Замесите слоеное тесто\\n2. Раскатайте и сверните\\n3. Дайте подойти 2 часа\\n4. Смажьте яйцом\\n5. Выпекайте 20 минут\\n6. Подавайте теплыми', 60, 20, 6)");
-
-// РУССКИЕ РЕЦЕПТЫ (категория 6)
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 6, 'Борщ', 'Национальное украинское блюдо', " +
-                "'1. Сварите мясной бульон\\n2. Добавьте свеклу и морковь\\n3. Положите капусту и картофель\\n4. Добавьте томатную пасту\\n5. Варите до готовности\\n6. Подавайте со сметаной', 40, 60, 6)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 6, 'Оливье', 'Классический новогодний салат', " +
-                "'1. Отварите овощи и яйца\\n2. Нарежьте все кубиками\\n3. Добавьте горошек и колбасу\\n4. Заправьте майонезом\\n5. Посолите по вкусу\\n6. Украсьте зеленью', 30, 0, 6)");
-
-// ДОБАВИМ ИНГРЕДИЕНТЫ ДЛЯ НОВЫХ РЕЦЕПТОВ
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Лосось')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Сливочный сыр')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Нори')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Рис для суши')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Тофу')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Вакаме')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Креветки')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Тортильи')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Авокадо')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Лайм')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Кинза')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Куриное филе')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Соевый соус')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Имбирь')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Лапша')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Свекла')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Капуста')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Картофель')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Морковь')");
-        db.execSQL("INSERT INTO ingredients (name) VALUES ('Сметана')");
-        // Дополнительные итальянские рецепты
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 1, 'Лазанья Болоньезе', 'Слоеная паста с мясным соусом и сыром', " +
-                "'1. Приготовьте мясной соус болоньезе\\n2. Приготовьте соус бешамель\\n3. Соберите лазанью слоями\\n4. Запекайте 40 минут при 180°C\\n5. Дайте настояться 10 минут перед подачей', 45, 40, 6)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 1, 'Ризотто с грибами', 'Кремовое ризотто с лесными грибами', " +
-                "'1. Обжарьте лук и чеснок\\n2. Добавьте рис арборио\\n3. Постепенно вливайте бульон\\n4. Добавьте грибы за 10 минут\\n5. Завершите пармезаном и маслом', 15, 25, 4)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 1, 'Тирамису', 'Классический итальянский десерт', " +
-                "'1. Взбейте маскарпоне с желтками\\n2. Приготовьте кофейную пропитку\\n3. Соберите десерт слоями\\n4. Охладите 4 часа\\n5. Посыпьте какао перед подачей', 30, 0, 6)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(2, 1, 'Брускетта с томатами', 'Итальянские тосты с помидорами и базиликом', " +
-                "'1. Подрумяньте хлеб на гриле\\n2. Натрите чесноком\\n3. Выложите рубленые томаты\\n4. Добавьте базилик и оливковое масло\\n5. Подавайте сразу', 10, 5, 2)");
-
-        db.execSQL("INSERT INTO recipes (user_id, category_id, title, description, instructions, prep_time, cook_time, servings) VALUES " +
-                "(1, 1, 'Оссобуко', 'Тушеная телячья голяшка по-милански', " +
-                "'1. Обжарьте мясо до корочки\\n2. Добавьте овощи и вино\\n3. Тушите 2 часа на медленном огне\\n4. Добавьте цедру лимона и петрушку\\n5. Подавайте с ризотто', 20, 120, 4)");
-
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (4, 1, '250', 'г')"); // Лазанья
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (4, 8, '200', 'г')"); // Моцарелла
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (5, 13, '320', 'г')"); // Рис арборио
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (5, 16, '300', 'г')"); // Грибы
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (6, 3, '4', 'шт')");   // Яйца для тирамису
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (7, 6, '4', 'шт')");   // Помидоры для брускетты
-        // Связи рецептов и ингредиентов
-        // Паста Карбонара
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (1, 1, '400', 'г')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (1, 2, '200', 'г')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (1, 3, '4', 'шт')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (1, 4, '100', 'г')");
-
-        // Спагетти Болоньезе
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (2, 1, '400', 'г')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (2, 10, '1', 'шт')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (2, 6, '800', 'г')");
-
-        // Ризотто с грибами
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (3, 13, '300', 'г')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (3, 16, '300', 'г')");
-        db.execSQL("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (3, 15, '1', 'л')");
-
-        // Избранное (тестовые данные)
-        db.execSQL("INSERT INTO favorites (user_id, recipe_id) VALUES (1, 1)");
-        db.execSQL("INSERT INTO favorites (user_id, recipe_id) VALUES (1, 3)");
-        db.execSQL("INSERT INTO favorites (user_id, recipe_id) VALUES (2, 2)");
+                "(1, 3, 'Пельмени', 'Русские пельмени', 'Готовить так...', 60, 10, 4)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS favorites");
-        db.execSQL("DROP TABLE IF EXISTS recipe_ingredients");
-        db.execSQL("DROP TABLE IF EXISTS ingredients");
         db.execSQL("DROP TABLE IF EXISTS recipes");
         db.execSQL("DROP TABLE IF EXISTS categories");
         db.execSQL("DROP TABLE IF EXISTS users");

@@ -310,4 +310,74 @@ public class    DatabaseManager {
         cursor.close();
         return ingredients;
     }
+
+    public List<Recipe> searchRecipesByTags(String[] tags) {
+        List<Recipe> recipes = new ArrayList<>();
+
+        if (tags == null || tags.length == 0) {
+            return recipes;
+        }
+
+        // Создаем условие для поиска по нескольким тегам
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT DISTINCT r.* FROM recipes r ");
+        queryBuilder.append("JOIN recipe_tags rt ON r.id = rt.recipe_id ");
+        queryBuilder.append("JOIN tags t ON rt.tag_id = t.id ");
+        queryBuilder.append("WHERE t.name IN (");
+
+        for (int i = 0; i < tags.length; i++) {
+            queryBuilder.append("?");
+            if (i < tags.length - 1) {
+                queryBuilder.append(",");
+            }
+        }
+        queryBuilder.append(") ORDER BY r.title");
+
+        Cursor cursor = database.rawQuery(queryBuilder.toString(), tags);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Recipe recipe = new Recipe();
+                recipe.setId(getIntSafe(cursor, "id"));
+                recipe.setTitle(getStringSafe(cursor, "title"));
+                recipe.setDescription(getStringSafe(cursor, "description"));
+                recipe.setPrepTime(getIntSafe(cursor, "prep_time"));
+                recipe.setCookTime(getIntSafe(cursor, "cook_time"));
+                recipe.setServings(getIntSafe(cursor, "servings"));
+                recipe.setDifficulty(getStringSafe(cursor, "difficulty"));
+                recipes.add(recipe);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return recipes;
+    }
+
+    public List<String> getAllTags() {
+        List<String> tags = new ArrayList<>();
+        Cursor cursor = database.query("tags", new String[]{"name"}, null, null, null, null, "name");
+
+        if (cursor.moveToFirst()) {
+            do {
+                tags.add(getStringSafe(cursor, "name"));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return tags;
+    }
+
+    public List<String> getRecipeTags(int recipeId) {
+        List<String> tags = new ArrayList<>();
+        String query = "SELECT t.name FROM tags t " +
+                "JOIN recipe_tags rt ON t.id = rt.tag_id " +
+                "WHERE rt.recipe_id = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(recipeId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                tags.add(getStringSafe(cursor, "name"));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return tags;
+    }
 }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AllCuisinesActivity extends BaseActivity {
 
@@ -95,7 +96,9 @@ public class AllCuisinesActivity extends BaseActivity {
         tvDescription.setText(description);
 
         btnSelect.setOnClickListener(v -> {
-            // ПРАВИЛЬНЫЙ ПЕРЕХОД - на категории кухни
+            // ОТЛАДКА: что передаём
+            Toast.makeText(this, "Передаём: " + title, Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
             intent.putExtra("cuisine_name", title);
             startActivity(intent);
