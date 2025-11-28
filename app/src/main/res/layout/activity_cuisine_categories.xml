@@ -27,6 +27,14 @@
             android:layout_marginEnd="16dp"
             android:padding="12dp"/>
 
+        <!-- ФЛАГ КУХНИ -->
+        <ImageView
+            android:id="@+id/ivCuisineFlag"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="fitXY" />
+
         <TextView
             android:id="@+id/tvCuisineTitle"
             android:layout_width="0dp"

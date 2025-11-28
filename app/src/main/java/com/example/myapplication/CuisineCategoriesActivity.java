@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 public class CuisineCategoriesActivity extends BaseActivity {
 
@@ -52,6 +53,7 @@ public class CuisineCategoriesActivity extends BaseActivity {
             tvCuisineTitle.setText(cuisineName);
         }
     }
+
     private void setupCategories() {
         String cuisineName = getIntent().getStringExtra("cuisine_name");
         if (cuisineName == null) {
@@ -112,20 +114,6 @@ public class CuisineCategoriesActivity extends BaseActivity {
                     addCategory(categoriesContainer, "Соусы", "Сальса, Гуакамоле");
                     break;
 
-                case "Индийская кухня":
-                    addCategory(categoriesContainer, "Карри", "Куриное, Овощное");
-                    addCategory(categoriesContainer, "Тандури", "Курица тандури, Наан");
-                    addCategory(categoriesContainer, "Бирьяни", "С бараниной, С курицей");
-                    addCategory(categoriesContainer, "Закуски", "Самоса, Пакора");
-                    break;
-
-                case "Американская кухня":
-                    addCategory(categoriesContainer, "Бургеры", "Чизбургер, Бекон бургер");
-                    addCategory(categoriesContainer, "Барбекю", "Ребра, Крылышки");
-                    addCategory(categoriesContainer, "Стейки", "Рибей, Стриплойн");
-                    addCategory(categoriesContainer, "Десерты", "Чизкейк, Брауни");
-                    break;
-
                 case "Русская кухня":
                     addCategory(categoriesContainer, "Супы", "Борщ, Щи, Солянка");
                     addCategory(categoriesContainer, "Выпечка", "Пирожки, Блины");
@@ -170,5 +158,34 @@ public class CuisineCategoriesActivity extends BaseActivity {
         });
 
         container.addView(categoryView);
+    }
+
+    private void setupCuisineFlag() {
+        ImageView ivFlag = findViewById(R.id.ivCuisineFlag);
+        String cuisineName = getIntent().getStringExtra("cuisine_name");
+
+        if (cuisineName != null && ivFlag != null) {
+            switch (cuisineName) {
+                case "Итальянская кухня":
+                    ivFlag.setImageResource(R.drawable.flag_italy);
+                    break;
+                case "Японская кухня":
+                    ivFlag.setImageResource(R.drawable.flag_japan);
+                    break;
+                case "Русская кухня":
+                    ivFlag.setImageResource(R.drawable.flag_russia);
+                    break;
+                case "Мексиканская кухня":
+                    ivFlag.setImageResource(R.drawable.flag_mexico);
+                    break;
+                case "Китайская кухня":
+                    ivFlag.setImageResource(R.drawable.flag_china);
+                    break;
+                case "Французская кухня":
+                    ivFlag.setImageResource(R.drawable.flag_france);
+                    break;
+
+            }
+        }
     }
 }

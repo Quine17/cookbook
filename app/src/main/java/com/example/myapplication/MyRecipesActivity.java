@@ -48,8 +48,6 @@ public class MyRecipesActivity extends BaseActivity {
         TextView headerTitle = findViewById(R.id.tvHeaderTitle);
         Button btnAddRecipeMain = findViewById(R.id.btnAddRecipeMain);
 
-
-
         if (btnAddRecipeMain != null) {
             btnAddRecipeMain.setOnClickListener(v -> showAddForm());
         }
@@ -123,7 +121,7 @@ public class MyRecipesActivity extends BaseActivity {
 
             int recipeId = (int) editRecipeForm.getTag();
 
-            // Удаляем старый и создаем новый (временное решение)
+            // ПРОСТО УДАЛЯЕМ И СОЗДАЕМ НОВЫЙ - как было у тебя изначально
             dbManager.deleteRecipe(recipeId);
 
             Recipe updatedRecipe = new Recipe();
@@ -177,11 +175,8 @@ public class MyRecipesActivity extends BaseActivity {
         List<Recipe> recipes;
 
         if (selectedCuisine.isEmpty()) {
-            // В "МОИ РЕЦЕПТЫ" показываем ТОЛЬКО рецепты созданные пользователем
-            // Для этого нужно добавить метод в DatabaseManager
-            recipes = dbManager.getUserRecipes(1); // 1 - ID текущего пользователя
+            recipes = dbManager.getUserRecipes(1);
         } else {
-            // В кухнях показываем все рецепты как раньше
             int categoryId = getCategoryIdFromCuisine(selectedCuisine);
             recipes = dbManager.getRecipesByCategory(categoryId);
         }
@@ -237,7 +232,7 @@ public class MyRecipesActivity extends BaseActivity {
 
             setupFavoriteButton(btnFavorite, recipe.getId());
 
-            // УДАЛЕНИЕ
+            // УДАЛЕНИЕ - ФИКС: проверяем что кнопка существует
             if (showEditDelete) {
                 TextView btnDelete = recipeView.findViewById(R.id.btnDelete);
                 if (btnDelete != null) {
@@ -246,17 +241,13 @@ public class MyRecipesActivity extends BaseActivity {
                         if (success) {
                             container.removeView(recipeView);
                             Toast.makeText(this, "Рецепт удален", Toast.LENGTH_SHORT).show();
-                            if (container.getChildCount() == 0) {
-                                LinearLayout emptyState = findViewById(R.id.emptyState);
-                                if (emptyState != null) emptyState.setVisibility(View.VISIBLE);
-                            }
+                            loadRecipesByCategory(); // Добавь эту строку
                         } else {
                             Toast.makeText(this, "Ошибка удаления", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
-                // РЕДАКТИРОВАНИЕ
                 TextView btnEdit = recipeView.findViewById(R.id.btnEdit);
                 if (btnEdit != null) {
                     btnEdit.setOnClickListener(v -> {
@@ -360,6 +351,7 @@ public class MyRecipesActivity extends BaseActivity {
             dbManager.close();
         }
     }
+
     private void setupSearch() {
         EditText etSearch = findViewById(R.id.etSearch);
         if (etSearch == null) return;
@@ -402,10 +394,8 @@ public class MyRecipesActivity extends BaseActivity {
         List<Recipe> filteredRecipes = new java.util.ArrayList<>();
 
         if (query.isEmpty()) {
-            // Если поиск пустой - показываем все рецепты
             filteredRecipes = allRecipes;
         } else {
-            // Фильтруем рецепты по названию и описанию
             String lowerQuery = query.toLowerCase();
             for (Recipe recipe : allRecipes) {
                 if (recipe.getTitle() != null && recipe.getTitle().toLowerCase().contains(lowerQuery) ||

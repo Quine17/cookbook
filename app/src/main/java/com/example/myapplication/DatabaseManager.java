@@ -379,6 +379,25 @@ public class DatabaseManager {
         }
         return recipes;
     }
+    public boolean updateRecipe(int recipeId, String title, String description, String instructions) {
+        try {
+            ContentValues values = new ContentValues();
+            values.put("title", title);
+            values.put("description", description);
+            values.put("instructions", instructions);
 
+            int rowsAffected = database.update(
+                    "recipes",
+                    values,
+                    "id = ?",
+                    new String[]{String.valueOf(recipeId)}
+            );
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            Log.e("DatabaseManager", "Error updating recipe", e);
+            return false;
+        }
+    }
 
 }

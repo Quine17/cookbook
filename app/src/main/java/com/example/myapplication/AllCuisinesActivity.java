@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.example.myapplication.models.Recipe;
 import java.util.List;
@@ -165,8 +166,6 @@ public class AllCuisinesActivity extends BaseActivity {
         addCuisine(container, "Китайская кухня", "Вок, димсамы, утка по-пекински");
         addCuisine(container, "Французская кухня", "Выпечка, соусы, десерты");
         addCuisine(container, "Мексиканская кухня", "Тако, буррито, кесадильи");
-        addCuisine(container, "Индийская кухня", "Карри, тандури, бирьяни");
-        addCuisine(container, "Американская кухня", "Бургеры, барбекю, стейки");
         addCuisine(container, "Русская кухня", "Борщ, пельмени, блины");
     }
 
@@ -176,17 +175,46 @@ public class AllCuisinesActivity extends BaseActivity {
         TextView tvTitle = cuisineView.findViewById(R.id.tvCuisineTitle);
         TextView tvDescription = cuisineView.findViewById(R.id.tvCuisineDescription);
         TextView btnSelect = cuisineView.findViewById(R.id.btnSelectCuisine);
+        ImageView ivFlag = cuisineView.findViewById(R.id.ivCuisineFlag); // Добавь эту строку
 
         tvTitle.setText(title);
         tvDescription.setText(description);
 
+        // Устанавливаем флаг в зависимости от кухни
+        setCuisineFlag(ivFlag, title);
+
         btnSelect.setOnClickListener(v -> {
-            // Переходим в рецепты этой кухни
             Intent intent = new Intent(AllCuisinesActivity.this, MyRecipesActivity.class);
             intent.putExtra("cuisine_name", title);
             startActivity(intent);
         });
 
         container.addView(cuisineView);
+    }
+
+    private void setCuisineFlag(ImageView ivFlag, String cuisineName) {
+        switch (cuisineName) {
+            case "Итальянская кухня":
+                ivFlag.setImageResource(R.drawable.flag_italy);
+                break;
+            case "Японская кухня":
+                ivFlag.setImageResource(R.drawable.flag_japan);
+                break;
+            case "Русская кухня":
+                ivFlag.setImageResource(R.drawable.flag_russia);
+                break;
+            case "Мексиканская кухня":
+                ivFlag.setImageResource(R.drawable.flag_mexico);
+                break;
+            case "Китайская кухня":
+                ivFlag.setImageResource(R.drawable.flag_china);
+                break;
+            case "Французская кухня":
+                ivFlag.setImageResource(R.drawable.flag_france);
+                break;
+            default:
+                // Запасной вариант если флага нет
+                break;
+        }
     }
 }

@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="World Cuisine"
+                android:text="YumTrove"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="World Cuisine - это ваше окно в мир кулинарного искусства! Откройте для себя рецепты со всего мира, от традиционных итальянских паст до экзотических азиатских блюд."
+                android:text="YumTrove - это ваше окно в мир кулинарного искусства! Откройте для себя рецепты со всего мира, от традиционных итальянских паст до экзотических азиатских блюд."
                 android:textSize="16sp"
                 android:textColor="#000000"
                 android:lineSpacingExtra="4dp"
@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📱 Разработчик:\nКоманда World Cuisine\n\n📧 Обратная связь:\nsupport@worldcuisine.com"
+                android:text="📱 Разработчик:\nКоманда YumTrove\n\n📧 Обратная связь:\Bogdan.vip1@mail.ru"
                 android:textSize="14sp"
                 android:textColor="#000000"
                 android:lineSpacingExtra="4dp"/>
