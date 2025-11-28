@@ -32,17 +32,17 @@ YumTrove позволяет пользователям создавать, хр�
 
 ## 🏗️ Структура проекта
 app/src/main/
-├── java/com/example/myapplication/
-│ ├── activities/ # Активности приложения
-│ ├── models/ # Модели данных
-│ ├── database/ # Работа с БД
-│ └── adapters/ # Адаптеры списков
-├── res/
-│ ├── layout/ # XML разметки
-│ ├── drawable/ # Изображения и иконки
-│ ├── menu/ # Меню навигации
-│ └── values/ # Ресурсы приложения
-└── AndroidManifest.xml # Конфигурация приложения
+java/com/example/myapplication/
+activities/ # Активности приложения
+models/ # Модели данных
+database/ # Работа с БД
+adapters/ # Адаптеры списков
+res/
+layout/ # XML разметки
+drawable/ # Изображения и иконки
+menu/ # Меню навигации
+values/ # Ресурсы приложения
+AndroidManifest.xml # Конфигурация приложения
 
 text
 
