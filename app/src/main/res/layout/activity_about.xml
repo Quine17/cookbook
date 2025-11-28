@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🌟 Особенности:\n• Более 1000 рецептов из 50+ стран\n• Пошаговые инструкции с фото\n• Система избранного\n• Поиск по ингредиентам\n• Персональные рекомендации"
+                android:text="🌟 Особенности:\n• Более десяток рецептов из разных стран\n• Пошаговые инструкции\n• Система избранного\n• Поиск\n•"
                 android:textSize="14sp"
                 android:textColor="#000000"
                 android:lineSpacingExtra="4dp"
@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📱 Разработчик:\nКоманда YumTrove\n\n📧 Обратная связь:\Bogdan.vip1@mail.ru"
+                android:text="📱 Разработчик:\n YumTrove\n\n📧 Обратная связь:\Bogdan.vip1@mail.ru"
                 android:textSize="14sp"
                 android:textColor="#000000"
                 android:lineSpacingExtra="4dp"/>
