@@ -1,61 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="32dp"
     android:gravity="center">
 
+    <!-- ЗАГОЛОВОК -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Регистрация"
-        android:textSize="24sp"
-        android:layout_marginBottom="32dp"/>
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginBottom="40dp"/>
 
+    <!-- ПОЛЕ ЛОГИНА -->
     <EditText
         android:id="@+id/etRegLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:hint="Логин"
-        android:layout_marginBottom="16dp"/>
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#666666"/>
 
+    <!-- ПОЛЕ EMAIL -->
     <EditText
         android:id="@+id/etRegEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:hint="Почта"
-        android:inputType="textEmailAddress"
-        android:layout_marginBottom="16dp"/>
+        android:hint="Email"
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#666666"
+        android:inputType="textEmailAddress"/>
 
+    <!-- ПОЛЕ ПАРОЛЯ -->
     <EditText
         android:id="@+id/etRegPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:hint="Пароль"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp"/>
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#666666"
+        android:inputType="textPassword"/>
 
+    <!-- ПОЛЕ ПОДТВЕРЖДЕНИЯ ПАРОЛЯ -->
     <EditText
         android:id="@+id/etRegConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:hint="Подтвердите пароль"
-        android:inputType="textPassword"
-        android:layout_marginBottom="24dp"/>
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"
+        android:layout_marginBottom="32dp"
+        android:textColor="#000000"
+        android:textColorHint="#666666"
+        android:inputType="textPassword"/>
 
+    <!-- КНОПКА РЕГИСТРАЦИИ -->
     <Button
         android:id="@+id/btnCompleteRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
         android:text="Зарегистрироваться"
-        android:background="#FF000000"
-        android:textColor="#FFFFFFFF"/>
+        android:background="#000000"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="16dp"/>
 
 </LinearLayout>

@@ -53,7 +53,10 @@
             android:name=".MyRecipesActivity"
             android:exported="false" />
 
+        <activity android:name=".RecipeDetailActivity" />
 
+        <activity android:name=".CookingGuideActivity" />
 
+        <activity android:name=".AddRecipeActivity" />
     </application>
 </manifest>

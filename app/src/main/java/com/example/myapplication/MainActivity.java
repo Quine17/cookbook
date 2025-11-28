@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -12,15 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.HomeActivity;
-import com.example.myapplication.R;
-import com.example.myapplication.RegisterActivity; // Добавь этот импорт
-
 public class MainActivity extends AppCompatActivity {
 
     private EditText etLogin, etPassword;
     private CheckBox cbRememberMe;
     private SharedPreferences sharedPreferences;
+    private DatabaseManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +30,18 @@ public class MainActivity extends AppCompatActivity {
         Button btnRegister = findViewById(R.id.btnRegister);
         TextView tvGuest = findViewById(R.id.tvGuest);
 
+        // Инициализация базы данных
+        dbManager = DatabaseManager.getInstance(this);
+        dbManager.open();
+
         sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE);
         loadSavedCredentials();
 
         btnLogin.setOnClickListener(v -> performLogin());
 
         btnRegister.setOnClickListener(v -> {
-            try {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
         // Гостевой вход
@@ -55,33 +51,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void performLogin() {
-        String login = etLogin.getText().toString();
-        String password = etPassword.getText().toString();
+        String login = etLogin.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
         if(login.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(login.equals("admin") && password.equals("12345")) {
+        // Проверяем в базе данных
+        boolean loginSuccess = dbManager.loginUser(login, password);
+
+        if(loginSuccess) {
+            Toast.makeText(this, "Успешный вход!", Toast.LENGTH_SHORT).show();
+
+            // Сохраняем данные если нужно
             if(cbRememberMe.isChecked()) {
                 saveCredentials(login, password);
             } else {
                 clearCredentials();
             }
-            Toast.makeText(this, "Успешный вход!", Toast.LENGTH_SHORT).show();
+
+            // Сохраняем информацию о пользователе
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("current_user", login);
+            editor.putBoolean("is_guest", false);
+            editor.apply();
 
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         } else {
-            Toast.makeText(this, "Неверные данные", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Неверный логин или пароль", Toast.LENGTH_LONG).show();
         }
     }
 
     private void enterAsGuest() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("is_guest", true);
+        editor.putString("current_user", "Гость");
         editor.apply();
 
         Toast.makeText(this, "Вход как гость", Toast.LENGTH_SHORT).show();
@@ -101,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearCredentials() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        editor.remove("login");
+        editor.remove("password");
+        editor.putBoolean("rememberMe", false);
         editor.apply();
     }
 
@@ -113,5 +123,13 @@ public class MainActivity extends AppCompatActivity {
         etLogin.setText(savedLogin);
         etPassword.setText(savedPassword);
         cbRememberMe.setChecked(rememberMe);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dbManager != null) {
+            dbManager.close();
+        }
     }
 }

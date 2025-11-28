@@ -1,91 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:background="#FFF8F0"
     android:padding="32dp"
     android:gravity="center">
 
-    <!-- ЗАГОЛОВОК -->
+    <!-- ЛОГОТИП -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="World Cuisine"
-        android:textSize="32sp"
+        android:text="YumTrove"
+        android:textSize="42sp"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginBottom="40dp"/>
+        android:textColor="#5D4037"
+        android:layout_marginBottom="60dp"/>
 
-    <!-- ПОЛЕ ЛОГИНА -->
-    <EditText
-        android:id="@+id/etLogin"
+    <!-- КАРТОЧКА ФОРМЫ -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email или логин"
-        android:background="@drawable/edit_text_background"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
-        android:textColor="#000000"
-        android:textColorHint="#666666"/>
+        android:orientation="vertical"
+        android:background="@drawable/cuisine_card_background"
+        android:padding="32dp"
+        android:elevation="4dp">
 
-    <!-- ПОЛЕ ПАРОЛЯ -->
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Пароль"
-        android:background="@drawable/edit_text_background"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
-        android:textColor="#000000"
-        android:textColorHint="#666666"
-        android:inputType="textPassword"/>
+        <!-- ПОЛЕ ЛОГИНА -->
+        <EditText
+            android:id="@+id/etLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email или логин"
+            android:background="@drawable/edit_text_background"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="#5D4037"
+            android:textColorHint="#8D6E63"
+            android:textSize="16sp"/>
 
-    <!-- ЗАПОМНИТЬ МЕНЯ -->
-    <CheckBox
-        android:id="@+id/cbRememberMe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Запомнить меня"
-        android:textColor="#000000"
-        android:layout_marginBottom="24dp"/>
+        <!-- ПОЛЕ ПАРОЛЯ -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пароль"
+            android:background="@drawable/edit_text_background"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="#5D4037"
+            android:textColorHint="#8D6E63"
+            android:textSize="16sp"
+            android:inputType="textPassword"/>
 
-    <!-- КНОПКА ВХОДА -->
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Войти"
-        android:background="#000000"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"/>
+        <!-- ЗАПОМНИТЬ МЕНЯ -->
+        <CheckBox
+            android:id="@+id/cbRememberMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Запомнить меня"
+            android:textColor="#5D4037"
+            android:layout_marginBottom="24dp"/>
 
-    <!-- КНОПКА РЕГИСТРАЦИИ -->
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Зарегистрироваться"
-        android:background="#666666"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:padding="16dp"
-        android:layout_marginBottom="32dp"/>
+        <!-- КНОПКА ВХОДА -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Войти"
+            android:background="@drawable/button_primary_background"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
-    <!-- ГОСТЕВОЙ ВХОД -->
+        <!-- КНОПКА РЕГИСТРАЦИИ -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Зарегистрироваться"
+            android:background="@drawable/button_secondary_background"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- РАЗДЕЛИТЕЛЬ -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- ГОСТЕВОЙ ВХОД -->
+        <TextView
+            android:id="@+id/tvGuest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Войти как гость"
+            android:textColor="#5D4037"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:background="@drawable/button_guest_background"
+            android:padding="16dp"/>
+
+    </LinearLayout>
+
+    <!-- ФУТЕР -->
     <TextView
-        android:id="@+id/tvGuest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Войти как гость"
-        android:textColor="#0000FF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="12dp"/>
+        android:text="Откройте мир кулинарии"
+        android:textColor="#8D6E63"
+        android:textSize="14sp"
+        android:layout_marginTop="40dp"/>
 
 </LinearLayout>

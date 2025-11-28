@@ -1,95 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
+    <!-- Шапка -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Новый рецепт"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Название -->
         <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
+            android:id="@+id/etPrepTime"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Название рецепта"
-            android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"/>
+            android:layout_weight="1"
+            android:hint="Подготовка (мин)"
+            android:inputType="number"
+            android:layout_marginEnd="8dp"
+            android:padding="12dp"/>
 
-        <!-- Описание -->
         <EditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:hint="Описание"
-            android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:gravity="top"
-            android:background="@drawable/edit_text_background"/>
-
-        <!-- Инструкции -->
-        <EditText
-            android:id="@+id/etInstructions"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:hint="Инструкции приготовления"
-            android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:gravity="top"
-            android:background="@drawable/edit_text_background"/>
-
-        <!-- Время и порции -->
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/etCookTime"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
-
-            <EditText
-                android:id="@+id/etPrepTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Подготовка (мин)"
-                android:inputType="number"
-                android:padding="12dp"
-                android:background="@drawable/edit_text_background"
-                android:layout_marginEnd="8dp"/>
-
-            <EditText
-                android:id="@+id/etCookTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Готовка (мин)"
-                android:inputType="number"
-                android:padding="12dp"
-                android:background="@drawable/edit_text_background"
-                android:layout_marginStart="8dp"/>
-
-        </LinearLayout>
-
-        <!-- Кнопка сохранения -->
-        <Button
-            android:id="@+id/btnSaveRecipe"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Сохранить рецепт"
-            android:background="#000000"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"/>
-
+            android:layout_weight="1"
+            android:hint="Готовка (мин)"
+            android:inputType="number"
+            android:layout_marginStart="8dp"
+            android:padding="12dp"/>
     </LinearLayout>
-</ScrollView>
+
+    <EditText
+        android:id="@+id/etServings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Порции"
+        android:inputType="number"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+         <!-- Поля ввода -->
+    <EditText
+        android:id="@+id/etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Название рецепта"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Описание"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etInstructions"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:hint="Инструкции приготовления"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <Button
+        android:id="@+id/btnSaveRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="СОХРАНИТЬ"
+        android:textStyle="bold"
+        android:background="#5D4037"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/cuisine_card_background"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Заголовок и время -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvRecipeTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Название рецепта"
+            android:textColor="#5D4037"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <!-- Время приготовления -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvCookTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25 мин"
+                android:textColor="#8D6E63"
+                android:textSize="12sp"
+                android:drawablePadding="4dp"
+                android:drawableStart="@android:drawable/ic_lock_idle_alarm"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Описание -->
+    <TextView
+        android:id="@+id/tvRecipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Описание рецепта будет здесь..."
+        android:textColor="#8D6E63"
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Детали рецепта -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Порции -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🍽️"
+                android:textSize="12sp"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/tvServings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 порции"
+                android:textColor="#8D6E63"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <!-- Сложность -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚡"
+                android:textSize="12sp"
+                android:layout_marginEnd="4px"/>
+
+            <TextView
+                android:id="@+id/tvDifficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Средняя"
+                android:textColor="#8D6E63"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+        <!-- Добавь эту кнопку перед кнопкой "Готовить": -->
+        <TextView
+            android:id="@+id/btnFavorite"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:text="♡"
+            android:textSize="20sp"
+            android:textColor="#8D6E63"
+            android:gravity="center"
+            android:background="@drawable/circle_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="8dp"/>
+        <!-- Кнопка готовить -->
+        <TextView
+            android:id="@+id/btnCook"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="Готовить"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="#5D4037"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </LinearLayout>
+
+</LinearLayout>

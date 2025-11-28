@@ -11,6 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.models.Recipe;
+import java.util.List;
+import java.util.ArrayList;
+
 public class AllCuisinesActivity extends BaseActivity {
 
     private EditText etSearch;
@@ -29,9 +33,7 @@ public class AllCuisinesActivity extends BaseActivity {
 
     private void setupHeader() {
         Button btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        btnBack.setOnClickListener(v -> finish());
 
         etSearch = findViewById(R.id.etSearch);
     }
@@ -43,7 +45,15 @@ public class AllCuisinesActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterCuisines(s.toString());
+                String query = s.toString().trim();
+
+                if (query.isEmpty()) {
+                    // Если поиск пустой - показываем кухни
+                    loadAllCuisines();
+                } else {
+                    // Если есть текст - ищем рецепты
+                    searchRecipes(query);
+                }
             }
 
             @Override
@@ -51,11 +61,105 @@ public class AllCuisinesActivity extends BaseActivity {
         });
     }
 
+    private void searchRecipes(String query) {
+        LinearLayout container = findViewById(R.id.cuisinesContainer);
+        if (container == null) return;
+        container.removeAllViews();
+
+        DatabaseManager dbManager = DatabaseManager.getInstance(this);
+        dbManager.open();
+
+        // Получаем ВСЕ рецепты из базы
+        List<Recipe> allRecipes = dbManager.getAllRecipesSimple();
+        dbManager.close();
+
+        if (allRecipes == null || allRecipes.isEmpty()) {
+            showEmptySearchState(query);
+            return;
+        }
+
+        // Фильтруем рецепты по названию и описанию
+        List<Recipe> foundRecipes = new ArrayList<>();
+        String lowerQuery = query.toLowerCase();
+
+        for (Recipe recipe : allRecipes) {
+            if (recipe.getTitle() != null && recipe.getTitle().toLowerCase().contains(lowerQuery) ||
+                    recipe.getDescription() != null && recipe.getDescription().toLowerCase().contains(lowerQuery)) {
+                foundRecipes.add(recipe);
+            }
+        }
+
+        if (foundRecipes.isEmpty()) {
+            showEmptySearchState(query);
+        } else {
+            // Показываем найденные рецепты
+            for (Recipe recipe : foundRecipes) {
+                addRecipeToSearchResults(container, recipe);
+            }
+            Toast.makeText(this, "Найдено рецептов: " + foundRecipes.size(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addRecipeToSearchResults(LinearLayout container, Recipe recipe) {
+        View recipeView = getLayoutInflater().inflate(R.layout.recipe_item, container, false);
+
+        TextView tvTitle = recipeView.findViewById(R.id.tvRecipeTitle);
+        TextView tvDescription = recipeView.findViewById(R.id.tvRecipeDescription);
+        TextView tvCookTime = recipeView.findViewById(R.id.tvCookTime);
+        TextView tvServings = recipeView.findViewById(R.id.tvServings);
+        TextView btnCook = recipeView.findViewById(R.id.btnCook);
+        TextView btnFavorite = recipeView.findViewById(R.id.btnFavorite);
+
+        tvTitle.setText(recipe.getTitle());
+        tvDescription.setText(recipe.getDescription() != null ?
+                recipe.getDescription() : "Описание отсутствует");
+
+        int totalTime = (recipe.getPrepTime() + recipe.getCookTime());
+        tvCookTime.setText(totalTime + " мин");
+        tvServings.setText(recipe.getServings() + " порции");
+
+        // Скрываем кнопку избранного в результатах поиска
+        btnFavorite.setVisibility(View.GONE);
+
+        btnCook.setOnClickListener(v -> {
+            // Открываем детали рецепта
+            Intent intent = new Intent(AllCuisinesActivity.this, RecipeDetailActivity.class);
+            intent.putExtra("recipe_id", recipe.getId());
+            startActivity(intent);
+        });
+
+        recipeView.setOnClickListener(v -> {
+            Intent intent = new Intent(AllCuisinesActivity.this, RecipeDetailActivity.class);
+            intent.putExtra("recipe_id", recipe.getId());
+            startActivity(intent);
+        });
+
+        container.addView(recipeView);
+    }
+
+    private void showEmptySearchState(String query) {
+        LinearLayout container = findViewById(R.id.cuisinesContainer);
+        container.removeAllViews();
+
+        // Показываем сообщение что ничего не найдено
+        View emptyView = getLayoutInflater().inflate(R.layout.cuisine_item, container, false);
+
+        TextView tvTitle = emptyView.findViewById(R.id.tvCuisineTitle);
+        TextView tvDescription = emptyView.findViewById(R.id.tvCuisineDescription);
+        TextView btnSelect = emptyView.findViewById(R.id.btnSelectCuisine);
+
+        tvTitle.setText("Ничего не найдено");
+        tvDescription.setText("По запросу '" + query + "' рецепты не найдены");
+        btnSelect.setVisibility(View.GONE);
+
+        container.addView(emptyView);
+    }
+
     private void loadAllCuisines() {
         LinearLayout container = findViewById(R.id.cuisinesContainer);
         container.removeAllViews();
 
-        // Добавляем все кухни
+        // Добавляем все кухни БЕЗ кнопок удаления
         addCuisine(container, "Итальянская кухня", "Паста, пицца, ризотто");
         addCuisine(container, "Японская кухня", "Суши, роллы, сашими");
         addCuisine(container, "Китайская кухня", "Вок, димсамы, утка по-пекински");
@@ -64,25 +168,6 @@ public class AllCuisinesActivity extends BaseActivity {
         addCuisine(container, "Индийская кухня", "Карри, тандури, бирьяни");
         addCuisine(container, "Американская кухня", "Бургеры, барбекю, стейки");
         addCuisine(container, "Русская кухня", "Борщ, пельмени, блины");
-    }
-
-    private void filterCuisines(String query) {
-        LinearLayout container = findViewById(R.id.cuisinesContainer);
-        container.removeAllViews();
-
-        // Простая фильтрация
-        String[] cuisines = {"Итальянская кухня", "Японская кухня", "Китайская кухня", "Французская кухня",
-                "Мексиканская кухня", "Индийская кухня", "Американская кухня", "Русская кухня"};
-        String[] descriptions = {"Паста, пицца, ризотто", "Суши, роллы, сашими", "Вок, димсамы, утка по-пекински",
-                "Выпечка, соусы, десерты", "Тако, буррито, кесадильи", "Карри, тандури, бирьяни",
-                "Бургеры, барбекю, стейки", "Борщ, пельмени, блины"};
-
-        for (int i = 0; i < cuisines.length; i++) {
-            if (cuisines[i].toLowerCase().contains(query.toLowerCase()) ||
-                    descriptions[i].toLowerCase().contains(query.toLowerCase())) {
-                addCuisine(container, cuisines[i], descriptions[i]);
-            }
-        }
     }
 
     private void addCuisine(LinearLayout container, String title, String description) {
@@ -96,10 +181,8 @@ public class AllCuisinesActivity extends BaseActivity {
         tvDescription.setText(description);
 
         btnSelect.setOnClickListener(v -> {
-            // ОТЛАДКА: что передаём
-            Toast.makeText(this, "Передаём: " + title, Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(AllCuisinesActivity.this, CuisineCategoriesActivity.class);
+            // Переходим в рецепты этой кухни
+            Intent intent = new Intent(AllCuisinesActivity.this, MyRecipesActivity.class);
             intent.putExtra("cuisine_name", title);
             startActivity(intent);
         });

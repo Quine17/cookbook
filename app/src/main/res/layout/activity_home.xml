@@ -10,348 +10,252 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_navigation"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- БЛОК РЕКОМЕНДАЦИЙ -->
+            <!-- ЗАГОЛОВОК -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Добро пожаловать в YumTrove!"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#5D4037"
+                android:gravity="center"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Откройте для себя мир вкусных рецептов"
+                android:textSize="16sp"
+                android:textColor="#8D6E63"
+                android:gravity="center"
+                android:layout_marginBottom="32px"/>
+
+            <!-- БЫСТРЫЕ КНОПКИ КУХОНЬ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="@drawable/cuisine_card_background"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="32dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🔥 Вам может понравиться"
-                    android:textColor="#5D4037"
+                    android:text="ПОПУЛЯРНЫЕ КУХНИ"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="На основе ваших предпочтений"
-                    android:textColor="#8D6E63"
-                    android:textSize="14sp"
+                    android:textColor="#5D4037"
+                    android:gravity="center"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Рекомендация 1 -->
+                <!-- Первый ряд кнопок -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <Button
+                        android:id="@+id/btnItalian"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        android:text="🍝\nИтальянская"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:background="#5D4037"
+                        android:gravity="center"
+                        android:layout_marginEnd="6dp"
+                        android:padding="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnJapanese"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        android:text="🍣\nЯпонская"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:background="#5D4037"
+                        android:gravity="center"
+                        android:layout_marginStart="6dp"
+                        android:padding="8dp"/>
+
+                </LinearLayout>
+
+                <!-- Второй ряд кнопок -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnChinese"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        android:text="🥢\nКитайская"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:background="#5D4037"
+                        android:gravity="center"
+                        android:layout_marginEnd="6dp"
+                        android:padding="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnAllCuisines"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        android:text="🔍\nВсе кухни"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:background="#5D4037"
+                        android:gravity="center"
+                        android:layout_marginStart="6dp"
+                        android:padding="8dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- РАБОЧИЕ ФУНКЦИИ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/cuisine_card_background"
+                android:padding="20dp"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="БЫСТРЫЙ ДОСТУП"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#5D4037"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Поиск рецептов -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <View
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/brown_circle"
-                        android:layout_marginEnd="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Паста Карбонара"
-                            android:textColor="#5D4037"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Итальянская · 25 мин · 🧀"
-                            android:textColor="#8D6E63"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Готовить"
-                        android:backgroundTint="#5D4037"
-                        android:textColor="#FFFFFF"
-                        android:padding="8dp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:textSize="12sp"
-                        app:cornerRadius="20dp"/>
-                </LinearLayout>
-
-                <!-- Рекомендация 2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <View
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/brown_circle"
-                        android:layout_marginEnd="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Калифорния роллы"
-                            android:textColor="#5D4037"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Японская · 40 мин · 🥑"
-                            android:textColor="#8D6E63"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Готовить"
-                        android:backgroundTint="#5D4037"
-                        android:textColor="#FFFFFF"
-                        android:padding="8dp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:textSize="12sp"
-                        app:cornerRadius="20dp"/>
-                </LinearLayout>
-
-                <!-- Рекомендация 3 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <View
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/brown_circle"
-                        android:layout_marginEnd="12dp"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Тако с говядиной"
-                            android:textColor="#5D4037"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Мексиканская · 20 мин · 🌶️"
-                            android:textColor="#8D6E63"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Готовить"
-                        android:backgroundTint="#5D4037"
-                        android:textColor="#FFFFFF"
-                        android:padding="8dp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:textSize="12sp"
-                        app:cornerRadius="20dp"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- ПОПУЛЯРНЫЕ КУХНИ -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Популярные кухни:"
-                android:textColor="#5D4037"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Карточка 1 - Итальянская кухня -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/cuisine_card_background"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp"
-                android:gravity="center_vertical">
-
-                <!-- Итальянский флаг -->
-                <LinearLayout
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal"
-                    android:layout_marginEnd="12dp">
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#009246"/>
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"/>
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#CE2B37"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Страсть и простота"
-                    android:textColor="#5D4037"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnItalian"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Выбрать"
-                    android:backgroundTint="#5D4037"
-                    android:textColor="#FFFFFF"
-                    android:padding="8dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    app:cornerRadius="20dp"/>
-            </LinearLayout>
-
-            <!-- Карточка 2 - Китайская кухня -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/cuisine_card_background"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp"
-                android:gravity="center_vertical">
-
-                <!-- Китайский флаг -->
-                <LinearLayout
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
-                    android:background="#DE2910"
-                    android:layout_marginEnd="12dp">
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Разнообразная и древняя"
-                    android:textColor="#5D4037"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChinese"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Выбрать"
-                    android:backgroundTint="#5D4037"
-                    android:textColor="#FFFFFF"
-                    android:padding="8dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    app:cornerRadius="20dp"/>
-            </LinearLayout>
-
-            <!-- Карточка 3 - Японская кухня -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/cuisine_card_background"
-                android:padding="16dp"
-                android:layout_marginBottom="24dp"
-                android:gravity="center_vertical">
-
-                <!-- Японский флаг -->
-                <LinearLayout
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
+                    android:padding="12dp"
                     android:background="#FFFFFF"
-                    android:layout_marginEnd="12dp">
-                    <View
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="#BC002D"
-                        android:layout_gravity="center"/>
+                    android:layout_marginBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardSearch">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔍"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="12dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Поиск рецептов"
+                        android:textColor="#5D4037"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="→"
+                        android:textSize="18sp"
+                        android:textColor="#8D6E63"/>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="0dp"
+                <!-- Мои рецепты -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Изящная и гармоничная"
-                    android:textColor="#5D4037"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardMyRecipes">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnJapanese"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📖"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="12dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Мои рецепты"
+                        android:textColor="#5D4037"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="→"
+                        android:textSize="18sp"
+                        android:textColor="#8D6E63"/>
+                </LinearLayout>
+
+                <!-- Избранное -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Выбрать"
-                    android:backgroundTint="#5D4037"
-                    android:textColor="#FFFFFF"
-                    android:padding="8dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    app:cornerRadius="20dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:background="#FFFFFF"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/cardFavorites">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="❤️"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="12dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Избранное"
+                        android:textColor="#5D4037"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="→"
+                        android:textSize="18sp"
+                        android:textColor="#8D6E63"/>
+                </LinearLayout>
+
             </LinearLayout>
-
-            <!-- Кнопка Все кухни -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAllCuisines"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Все кухни"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:backgroundTint="#5D4037"
-                app:cornerRadius="25dp"
-                android:textStyle="bold"/>
 
         </LinearLayout>
     </ScrollView>
@@ -362,9 +266,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#FFD54F"
+        android:background="@android:color/white"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/bottom_nav_mustard"
-        app:itemTextColor="@color/bottom_nav_mustard" />
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black" />
 
 </RelativeLayout>

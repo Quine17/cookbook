@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- Шапка -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#F8F8F8"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="←"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ПРИГОТОВЛЕНИЕ"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <!-- Контент -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
+
+        <!-- Название рецепта -->
+        <TextView
+            android:id="@+id/tvRecipeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Название рецепта"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#5D4037"
+            android:gravity="center"
+            android:layout_marginBottom="40dp"/>
+
+        <!-- Карточка шага -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/cuisine_card_background"
+            android:padding="32dp"
+            android:elevation="4dp">
+
+            <!-- Номер шага -->
+            <TextView
+                android:id="@+id/tvStepNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Шаг 1"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#5D4037"
+                android:gravity="center"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Описание шага -->
+            <TextView
+                android:id="@+id/tvStepDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Описание текущего шага приготовления..."
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:lineSpacingExtra="6dp"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Прогресс -->
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1/6"
+                android:textSize="16sp"
+                android:textColor="#8D6E63"
+                android:gravity="center"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Кнопки навигации -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnPrev"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="Назад"
+                    android:textColor="#5D4037"
+                    android:background="@android:color/transparent"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="false"/>
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="Далее"
+                    android:textColor="#FFFFFF"
+                    android:background="#5D4037"
+                    android:layout_marginStart="8dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

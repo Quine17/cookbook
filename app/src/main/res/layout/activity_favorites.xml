@@ -38,7 +38,7 @@
 
     </LinearLayout>
 
-    <!-- СПИСОК ИЗБРАННЫХ -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,11 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/favoritesContainer">
+            android:id="@+id/recipesContainer">
 
-            <!-- Избранные рецепты будут добавляться динамически -->
-
-            <!-- Заглушка если избранных нет -->
+            <!-- ЗАГЛУШКА ЕСЛИ РЕЦЕПТОВ НЕТ - ТОЛЬКО ОДИН emptyState! -->
             <LinearLayout
                 android:id="@+id/emptyState"
                 android:layout_width="match_parent"
@@ -66,14 +64,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⭐"
+                    android:text="❤️"
                     android:textSize="48sp"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="В избранном пусто"
+                    android:text="У вас пока нет избранных рецептов"
                     android:textSize="18sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="8dp"/>
@@ -81,9 +79,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Добавляйте рецепты в избранное!"
+                    android:text="Добавляйте рецепты с помощью ❤️"
                     android:textSize="14sp"
-                    android:textColor="#999666"/>
+                    android:textColor="#999999"/>
 
             </LinearLayout>
 
