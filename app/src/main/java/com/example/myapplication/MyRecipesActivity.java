@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.myapplication.models.Recipe;
 import java.util.List;
@@ -18,6 +19,7 @@ public class MyRecipesActivity extends BaseActivity {
 
     private String selectedCuisine = "";
     private DatabaseManager dbManager;
+    private String selectedCategoryForNewRecipe = "Итальянская кухня";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +50,70 @@ public class MyRecipesActivity extends BaseActivity {
         TextView headerTitle = findViewById(R.id.tvHeaderTitle);
         Button btnAddRecipeMain = findViewById(R.id.btnAddRecipeMain);
 
+        // Меняем заголовок в зависимости от контекста
+        if (selectedCuisine.isEmpty()) {
+            headerTitle.setText("МОИ РЕЦЕПТЫ");
+        } else {
+            headerTitle.setText(selectedCuisine); // Показываем название кухни
+        }
+
         if (btnAddRecipeMain != null) {
             btnAddRecipeMain.setOnClickListener(v -> showAddForm());
+        }
+    }
+
+    private void showCategorySelectionDialog() {
+        final String[] cuisines = {
+                "Итальянская кухня",
+                "Японская кухня",
+                "Русская кухня",
+                "Мексиканская кухня",
+                "Китайская кухня",
+                "Французская кухня"
+        };
+
+        // Находим индекс выбранной кухни
+        int selectedIndex = 0;
+        for (int i = 0; i < cuisines.length; i++) {
+            if (cuisines[i].equals(selectedCategoryForNewRecipe)) {
+                selectedIndex = i;
+                break;
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выберите кухню");
+        builder.setSingleChoiceItems(cuisines, selectedIndex, (dialog, which) -> {
+            selectedCategoryForNewRecipe = cuisines[which];
+        });
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            updateSelectedCategoryInForm();
+        });
+
+        builder.setNegativeButton("Отмена", null);
+        builder.show();
+    }
+
+    private void updateSelectedCategoryInForm() {
+        TextView tvSelectedCategory = findViewById(R.id.tvSelectedCategory);
+        if (tvSelectedCategory != null) {
+            tvSelectedCategory.setText(selectedCategoryForNewRecipe);
         }
     }
 
     private void setupAddRecipeFunctionality() {
         Button btnSaveNewRecipe = findViewById(R.id.btnSaveNewRecipe);
         Button btnCancelRecipe = findViewById(R.id.btnCancelRecipe);
+        Button btnSelectCategory = findViewById(R.id.btnSelectCategory);
+
+        // Инициализируем выбранную категорию в форме
+        updateSelectedCategoryInForm();
+
+        // Кнопка выбора категории
+        if (btnSelectCategory != null) {
+            btnSelectCategory.setOnClickListener(v -> showCategorySelectionDialog());
+        }
 
         btnCancelRecipe.setOnClickListener(v -> hideAddForm());
 
@@ -73,9 +131,12 @@ public class MyRecipesActivity extends BaseActivity {
                 return;
             }
 
+            // Получаем ID категории из выбранной кухни
+            int categoryId = getCategoryIdFromCuisine(selectedCategoryForNewRecipe);
+
             Recipe recipe = new Recipe();
             recipe.setUserId(1);
-            recipe.setCategoryId(1);
+            recipe.setCategoryId(categoryId);
             recipe.setTitle(title);
             recipe.setDescription(description.isEmpty() ? "Описание отсутствует" : description);
             recipe.setInstructions(instructions.isEmpty() ? "Инструкции отсутствуют" : instructions);
@@ -86,18 +147,20 @@ public class MyRecipesActivity extends BaseActivity {
             long result = dbManager.addRecipe(recipe);
 
             if (result != -1) {
-                Toast.makeText(this, "Рецепт '" + title + "' сохранен!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Рецепт '" + title + "' сохранен в " + selectedCategoryForNewRecipe + "!", Toast.LENGTH_SHORT).show();
                 hideAddForm();
                 etNewTitle.setText("");
                 etNewDescription.setText("");
                 etNewInstructions.setText("");
+                // Сбрасываем выбор кухни на значение по умолчанию
+                selectedCategoryForNewRecipe = "Итальянская кухня";
+                updateSelectedCategoryInForm();
                 loadRecipesByCategory();
             } else {
                 Toast.makeText(this, "Ошибка сохранения", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
     private void setupEditRecipeFunctionality() {
         Button btnCancelEdit = findViewById(R.id.btnCancelEdit);
         Button btnSaveEditRecipe = findViewById(R.id.btnSaveEditRecipe);
@@ -121,12 +184,18 @@ public class MyRecipesActivity extends BaseActivity {
 
             int recipeId = (int) editRecipeForm.getTag();
 
-            // ПРОСТО УДАЛЯЕМ И СОЗДАЕМ НОВЫЙ - как было у тебя изначально
+            // Получаем оригинальный рецепт для сохранения категории
+            Recipe originalRecipe = getRecipeById(recipeId);
+            if (originalRecipe == null) {
+                Toast.makeText(this, "Ошибка: рецепт не найден", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             dbManager.deleteRecipe(recipeId);
 
             Recipe updatedRecipe = new Recipe();
             updatedRecipe.setUserId(1);
-            updatedRecipe.setCategoryId(1);
+            updatedRecipe.setCategoryId(originalRecipe.getCategoryId()); // Сохраняем оригинальную категорию
             updatedRecipe.setTitle(title);
             updatedRecipe.setDescription(description);
             updatedRecipe.setInstructions(instructions);
@@ -144,6 +213,18 @@ public class MyRecipesActivity extends BaseActivity {
                 Toast.makeText(this, "Ошибка обновления", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private Recipe getRecipeById(int recipeId) {
+        List<Recipe> allRecipes = dbManager.getAllRecipesSimple();
+        if (allRecipes != null) {
+            for (Recipe recipe : allRecipes) {
+                if (recipe.getId() == recipeId) {
+                    return recipe;
+                }
+            }
+        }
+        return null;
     }
 
     private void showAddForm() {
@@ -175,14 +256,26 @@ public class MyRecipesActivity extends BaseActivity {
         List<Recipe> recipes;
 
         if (selectedCuisine.isEmpty()) {
+            // В "МОИ РЕЦЕПТЫ" показываем ВСЕ рецепты пользователя
             recipes = dbManager.getUserRecipes(1);
         } else {
+            // В конкретной кухне показываем рецепты этой кухни
             int categoryId = getCategoryIdFromCuisine(selectedCuisine);
             recipes = dbManager.getRecipesByCategory(categoryId);
         }
 
         if (recipes == null || recipes.isEmpty()) {
             if (emptyState != null) emptyState.setVisibility(View.VISIBLE);
+
+            // Обновляем текст пустого состояния в зависимости от контекста
+            TextView emptyText = emptyState.findViewById(R.id.emptyText);
+            if (emptyText != null) {
+                if (selectedCuisine.isEmpty()) {
+                    emptyText.setText("У вас пока нет рецептов");
+                } else {
+                    emptyText.setText("В этой кухне пока нет рецептов");
+                }
+            }
             return;
         }
 
@@ -232,7 +325,6 @@ public class MyRecipesActivity extends BaseActivity {
 
             setupFavoriteButton(btnFavorite, recipe.getId());
 
-            // УДАЛЕНИЕ - ФИКС: проверяем что кнопка существует
             if (showEditDelete) {
                 TextView btnDelete = recipeView.findViewById(R.id.btnDelete);
                 if (btnDelete != null) {
@@ -241,7 +333,7 @@ public class MyRecipesActivity extends BaseActivity {
                         if (success) {
                             container.removeView(recipeView);
                             Toast.makeText(this, "Рецепт удален", Toast.LENGTH_SHORT).show();
-                            loadRecipesByCategory(); // Добавь эту строку
+                            loadRecipesByCategory();
                         } else {
                             Toast.makeText(this, "Ошибка удаления", Toast.LENGTH_SHORT).show();
                         }

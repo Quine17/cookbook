@@ -36,7 +36,7 @@
                 android:textSize="16sp"
                 android:textColor="#8D6E63"
                 android:gravity="center"
-                android:layout_marginBottom="32px"/>
+                android:layout_marginBottom="32dp"/>
 
             <!-- БЫСТРЫЕ КНОПКИ КУХОНЬ -->
             <LinearLayout
@@ -62,7 +62,7 @@
                     android:orientation="horizontal"
                     android:layout_marginBottom="12dp">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnItalian"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
@@ -70,12 +70,13 @@
                         android:text="🍝\nИтальянская"
                         android:textSize="16sp"
                         android:textColor="#FFFFFF"
-                        android:background="#5D4037"
+                        android:backgroundTint="#5D4037"
                         android:gravity="center"
                         android:layout_marginEnd="6dp"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        app:cornerRadius="16dp"/>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnJapanese"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
@@ -83,10 +84,11 @@
                         android:text="🍣\nЯпонская"
                         android:textSize="16sp"
                         android:textColor="#FFFFFF"
-                        android:background="#5D4037"
+                        android:backgroundTint="#5D4037"
                         android:gravity="center"
                         android:layout_marginStart="6dp"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        app:cornerRadius="16dp"/>
 
                 </LinearLayout>
 
@@ -96,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnChinese"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
@@ -104,12 +106,13 @@
                         android:text="🥢\nКитайская"
                         android:textSize="16sp"
                         android:textColor="#FFFFFF"
-                        android:background="#5D4037"
+                        android:backgroundTint="#5D4037"
                         android:gravity="center"
                         android:layout_marginEnd="6dp"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        app:cornerRadius="16dp"/>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAllCuisines"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
@@ -117,10 +120,11 @@
                         android:text="🔍\nВсе кухни"
                         android:textSize="16sp"
                         android:textColor="#FFFFFF"
-                        android:background="#5D4037"
+                        android:backgroundTint="#5D4037"
                         android:gravity="center"
                         android:layout_marginStart="6dp"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        app:cornerRadius="16dp"/>
 
                 </LinearLayout>
 
@@ -146,114 +150,135 @@
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Поиск рецептов -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp"
-                    android:background="#FFFFFF"
                     android:layout_marginBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:id="@+id/cardSearch">
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/cardSearch"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="🔍"
-                        android:textSize="20sp"
-                        android:layout_marginEnd="12dp"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Поиск рецептов"
-                        android:textColor="#5D4037"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔍"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="12dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="→"
-                        android:textSize="18sp"
-                        android:textColor="#8D6E63"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Поиск рецептов"
+                            android:textColor="#5D4037"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="→"
+                            android:textSize="18sp"
+                            android:textColor="#8D6E63"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Мои рецепты -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp"
-                    android:background="#FFFFFF"
                     android:layout_marginBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:id="@+id/cardMyRecipes">
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/cardMyRecipes"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📖"
-                        android:textSize="20sp"
-                        android:layout_marginEnd="12dp"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Мои рецепты"
-                        android:textColor="#5D4037"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📖"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="12dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="→"
-                        android:textSize="18sp"
-                        android:textColor="#8D6E63"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Мои рецепты"
+                            android:textColor="#5D4037"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="→"
+                            android:textSize="18sp"
+                            android:textColor="#8D6E63"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Избранное -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp"
-                    android:background="#FFFFFF"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:id="@+id/cardFavorites">
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/cardFavorites"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="❤️"
-                        android:textSize="20sp"
-                        android:layout_marginEnd="12dp"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Избранное"
-                        android:textColor="#5D4037"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="❤️"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="12dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="→"
-                        android:textSize="18sp"
-                        android:textColor="#8D6E63"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Избранное"
+                            android:textColor="#5D4037"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="→"
+                            android:textSize="18sp"
+                            android:textColor="#8D6E63"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -266,9 +291,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
+        android:background="#FFD54F"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black" />
+        app:itemIconTint="@color/bottom_nav_mustard"
+        app:itemTextColor="@color/bottom_nav_mustard" />
 
 </RelativeLayout>

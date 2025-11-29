@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFF8F0">
 
     <!-- ШАПКА -->
     <LinearLayout
@@ -13,19 +13,21 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:background="#F8F8F8"
+        android:background="#FFF8F0"
         android:gravity="center_vertical">
 
-        <Button
+        <!-- СТРЕЛОЧКА НАЗАД -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:text="←"
-            android:textSize="20sp"
-            android:background="@android:color/transparent"
-            android:textColor="#000000"
+            android:textSize="24sp"
+            android:backgroundTint="@android:color/transparent"
+            android:textColor="#5D4037"
             android:layout_marginEnd="16dp"
-            android:padding="12dp"/>
+            android:padding="8dp"
+            app:cornerRadius="24dp"/>
 
         <TextView
             android:id="@+id/tvHeaderTitle"
@@ -35,7 +37,7 @@
             android:text="МОИ РЕЦЕПТЫ"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="#5D4037"
             android:gravity="center"/>
 
     </LinearLayout>
@@ -47,9 +49,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
         android:hint="🔍 Поиск рецептов..."
-        android:padding="12dp"
-        android:background="@drawable/edit_text_background"
-        android:layout_margin="16dp"/>
+        android:padding="16dp"
+        android:background="@drawable/search_background"
+        android:textColor="#5D4037"
+        android:textColorHint="#8D6E63"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
 
     <!-- ОСНОВНОЙ КОНТЕНТ -->
     <ScrollView
@@ -72,19 +80,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#F8F8F8"
-                android:padding="16dp"
+                android:background="@drawable/cuisine_card_background"
+                android:padding="20dp"
                 android:visibility="gone"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="НОВЫЙ РЕЦЕПТ"
-                    android:textSize="18sp"
+                    android:text="Новый рецепт"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     android:textColor="#5D4037"
-                    android:layout_marginBottom="12dp"/>
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"/>
 
                 <EditText
                     android:id="@+id/etNewTitle"
@@ -92,8 +101,11 @@
                     android:layout_height="wrap_content"
                     android:hint="Название рецепта *"
                     android:background="@drawable/edit_text_background"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:padding="16dp"
+                    android:textColor="#5D4037"
+                    android:textColorHint="#8D6E63"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp"/>
 
                 <EditText
                     android:id="@+id/etNewDescription"
@@ -101,46 +113,97 @@
                     android:layout_height="wrap_content"
                     android:hint="Описание"
                     android:background="@drawable/edit_text_background"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:padding="16dp"
+                    android:textColor="#5D4037"
+                    android:textColorHint="#8D6E63"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp"/>
 
                 <EditText
                     android:id="@+id/etNewInstructions"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     android:hint="Инструкции приготовления"
                     android:background="@drawable/edit_text_background"
-                    android:padding="12dp"
+                    android:padding="16dp"
                     android:gravity="top"
                     android:inputType="textMultiLine"
-                    android:layout_marginBottom="12dp"/>
+                    android:textColor="#5D4037"
+                    android:textColorHint="#8D6E63"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- ВЫБОР КУХНИ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/edit_text_background"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Кухня:"
+                        android:textColor="#5D4037"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvSelectedCategory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Итальянская кухня"
+                        android:textColor="#5D4037"
+                        android:textSize="16sp"
+                        android:padding="8dp"
+                        android:gravity="center"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSelectCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="Изменить"
+                        android:textSize="14sp"
+                        android:backgroundTint="#5D4037"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        app:cornerRadius="18dp"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCancelRecipe"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="ОТМЕНА"
-                        android:background="#CCCCCC"
-                        android:textColor="#666666"
+                        android:text="Отмена"
+                        android:textSize="16sp"
+                        android:backgroundTint="#8D6E63"
+                        android:textColor="#FFFFFF"
                         android:layout_marginEnd="8dp"
-                        android:padding="12dp"/>
+                        app:cornerRadius="24dp"/>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSaveNewRecipe"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="СОХРАНИТЬ"
-                        android:background="#5D4037"
+                        android:text="Сохранить"
+                        android:textSize="16sp"
+                        android:backgroundTint="#5D4037"
                         android:textColor="#FFFFFF"
                         android:layout_marginStart="8dp"
-                        android:padding="12dp"/>
+                        app:cornerRadius="24dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -150,19 +213,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#F8F8F8"
-                android:padding="16dp"
+                android:background="@drawable/cuisine_card_background"
+                android:padding="20dp"
                 android:visibility="gone"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="РЕДАКТИРОВАНИЕ РЕЦЕПТА"
-                    android:textSize="18sp"
+                    android:text="Редактирование рецепта"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     android:textColor="#5D4037"
-                    android:layout_marginBottom="12dp"/>
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"/>
 
                 <EditText
                     android:id="@+id/etEditTitle"
@@ -170,8 +234,11 @@
                     android:layout_height="wrap_content"
                     android:hint="Название рецепта *"
                     android:background="@drawable/edit_text_background"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:padding="16dp"
+                    android:textColor="#5D4037"
+                    android:textColorHint="#8D6E63"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp"/>
 
                 <EditText
                     android:id="@+id/etEditDescription"
@@ -179,61 +246,73 @@
                     android:layout_height="wrap_content"
                     android:hint="Описание"
                     android:background="@drawable/edit_text_background"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:padding="16dp"
+                    android:textColor="#5D4037"
+                    android:textColorHint="#8D6E63"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp"/>
 
                 <EditText
                     android:id="@+id/etEditInstructions"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     android:hint="Инструкции приготовления"
                     android:background="@drawable/edit_text_background"
-                    android:padding="12dp"
+                    android:padding="16dp"
                     android:gravity="top"
                     android:inputType="textMultiLine"
-                    android:layout_marginBottom="12dp"/>
+                    android:textColor="#5D4037"
+                    android:textColorHint="#8D6E63"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="20dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCancelEdit"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="ОТМЕНА"
-                        android:background="#CCCCCC"
-                        android:textColor="#666666"
+                        android:text="Отмена"
+                        android:textSize="16sp"
+                        android:backgroundTint="#8D6E63"
+                        android:textColor="#FFFFFF"
                         android:layout_marginEnd="8dp"
-                        android:padding="12dp"/>
+                        app:cornerRadius="24dp"/>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSaveEditRecipe"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="СОХРАНИТЬ"
-                        android:background="#5D4037"
+                        android:text="Сохранить"
+                        android:textSize="16sp"
+                        android:backgroundTint="#5D4037"
                         android:textColor="#FFFFFF"
                         android:layout_marginStart="8dp"
-                        android:padding="12dp"/>
+                        app:cornerRadius="24dp"/>
                 </LinearLayout>
             </LinearLayout>
 
             <!-- БОЛЬШАЯ КНОПКА ДОБАВЛЕНИЯ -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddRecipeMain"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="➕ ДОБАВИТЬ НОВЫЙ РЕЦЕПТ"
+                android:layout_height="56dp"
+                android:text="➕ Добавить новый рецепт"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:background="#5D4037"
+                android:backgroundTint="#5D4037"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="24dp"
-                android:visibility="visible"/>
+                android:visibility="visible"
+                app:cornerRadius="28dp"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"/>
 
             <!-- КОНТЕЙНЕР ДЛЯ РЕЦЕПТОВ -->
             <LinearLayout
@@ -249,7 +328,9 @@
                     android:layout_height="200dp"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:background="@drawable/cuisine_card_background"
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -258,12 +339,15 @@
                         android:textSize="48sp"
                         android:layout_marginBottom="16dp"/>
 
+                    <!-- ДОБАВЬ ЭТОТ ID -->
                     <TextView
+                        android:id="@+id/emptyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="У вас пока нет рецептов"
                         android:textSize="18sp"
-                        android:textColor="#666666"
+                        android:textColor="#5D4037"
+                        android:textStyle="bold"
                         android:layout_marginBottom="8dp"/>
 
                     <TextView
@@ -271,7 +355,8 @@
                         android:layout_height="wrap_content"
                         android:text="Нажмите кнопку выше чтобы создать первый рецепт!"
                         android:textSize="14sp"
-                        android:textColor="#999999"/>
+                        android:textColor="#8D6E63"
+                        android:gravity="center"/>
 
                 </LinearLayout>
 
@@ -286,9 +371,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
+        android:background="#FFD54F"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black" />
+        app:itemIconTint="@color/bottom_nav_mustard"
+        app:itemTextColor="@color/bottom_nav_mustard" />
 
 </RelativeLayout>
